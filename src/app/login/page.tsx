@@ -1,40 +1,92 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react"; // Client side import? No, v5 uses server actions or API. 
-// For credentials, we usually use server actions or client fetch to signIn. 
-// signIn from next-auth/react is still valid for client components in v5 beta if SessionProvider is used.
-// OR we can use a Server Action to call signIn(). 
-// Let's use the 'next-auth/react' way for simplicity if it works, or server action.
-// In v5, recommended is Server Actions.
-
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { authenticate } from "@/lib/actions/auth"; // Server Action
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
-    const router = useRouter();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const [error, setError] = useState<string | null>(null);
+    const [isPending, setIsPending] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setError("");
+        setIsPending(true);
+        setError(null);
 
-        // Using Server Action approach is preferred but hard to inline in client component without extra file.
-        // We can use the API route for signin? 
-        // NextAuth v5 exposes /api/auth/callback/credentials? 
-        // Actually, we can just use the server action `signIn` imported from `auth.ts` inside a server component?
-        // But this is a client form.
+        const formData = new FormData(e.currentTarget);
 
-        // Simplest way for now: Create a server action file actions/auth.ts
-        // But since I didn't set that up, let's try strict API usage (legacy next-auth/react).
-        // I need to wrap layout in SessionProvider? Not strictly for just signIn.
-        // Wait, `next-auth/react` import might fail if I didn't verify exports.
+        try {
+            const result = await authenticate(undefined, formData);
+            if (result) {
+                setError(result);
+                setIsPending(false);
+            }
+            // If successful, authenticate redirects, so we don't need to do anything here generally.
+            // But if it doesn't, we might be stuck.
+        } catch (err) {
+            setError("An unexpected error occurred.");
+            setIsPending(false);
+        }
     };
 
     return (
-        <div className="flex h-screen items-center justify-center bg-gray-50">
-            <div>Login Page Placeholder</div>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800 p-4">
+            <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white/5 backdrop-blur-xl shadow-2xl border border-white/10">
+                <div className="p-8">
+                    <div className="mb-8 text-center">
+                        <h1 className="text-3xl font-bold tracking-tight text-white">Welcome Back</h1>
+                        <p className="mt-2 text-slate-400">Sign in to your account</p>
+                    </div>
+
+                    {error && (
+                        <div className="mb-6 rounded-md bg-red-500/10 p-4 text-sm text-red-400 border border-red-500/20">
+                            {error}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="space-y-2">
+                            <Label className="text-slate-200">Email Address</Label>
+                            <Input
+                                name="email"
+                                type="email"
+                                placeholder="john@example.com"
+                                required
+                                className="bg-white/5 border-white/10 text-white"
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label className="text-slate-200">Password</Label>
+                            <Input
+                                name="password"
+                                type="password"
+                                placeholder="******"
+                                required
+                                className="bg-white/5 border-white/10 text-white"
+                            />
+                        </div>
+
+                        <Button
+                            type="submit"
+                            disabled={isPending}
+                            className="w-full bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-lg py-6 shadow-lg shadow-sky-500/20"
+                        >
+                            {isPending ? "Signing in..." : "Sign In"}
+                        </Button>
+                    </form>
+
+                    <div className="mt-8 text-center text-sm text-slate-400">
+                        Don't have an account?{" "}
+                        <Link href="/register" className="font-medium text-sky-400 hover:text-sky-300">
+                            Create Account
+                        </Link>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

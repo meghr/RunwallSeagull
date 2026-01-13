@@ -12,6 +12,7 @@ export const RegisterSchema = z.object({
     buildingId: z.string().min(1, "Building is required"),
     flatId: z.string().min(1, "Flat is required"),
     userType: z.enum(["OWNER", "TENANT"]),
+    profileImageUrl: z.string().optional(),
 });
 
 export type LoginInput = z.infer<typeof LoginSchema>;

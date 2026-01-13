@@ -21,6 +21,9 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
 
                     if (!user || !user.passwordHash) return null;
 
+                    // Enforce Admin Approval
+                    if (user.status !== "APPROVED") return null;
+
                     const passwordsMatch = await bcrypt.compare(
                         password,
                         user.passwordHash

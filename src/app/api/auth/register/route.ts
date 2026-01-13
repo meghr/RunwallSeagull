@@ -15,7 +15,7 @@ export async function POST(req: Request) {
             );
         }
 
-        const { name, email, password, buildingId, flatId, userType } = validatedFields.data;
+        const { name, email, password, buildingId, flatId, userType, profileImageUrl } = validatedFields.data;
 
         // Check if user exists
         const existingUser = await prisma.user.findUnique({
@@ -29,8 +29,7 @@ export async function POST(req: Request) {
             );
         }
 
-        // Verify flat exists and vacancy (basic check)
-        // In a real app, we might check if 'owner' is already assigned if registering as owner
+        // Verify flat exists
         const flat = await prisma.flat.findUnique({
             where: { id: flatId },
         });
@@ -51,18 +50,8 @@ export async function POST(req: Request) {
                 buildingId,
                 flatId,
                 userType,
-                role: "PUBLIC", // Default role, upgradeable to OWNER/TENANT after approval? 
-                // Actually, schema has role USER/OWNER/TENANT. 
-                // Let's set role based on userType but keep status PENDING.
-                // Wait, schema says role: PUBLIC/OWNER/TENANT/ADMIN.
-                // Let's set role=PUBLIC initially until approved? 
-                // Or set role=OWNER/TENANT but status=PENDING.
-                // Task 2.1 says "Insert user with status='PENDING'".
-                // Let's set role to PUBLIC for now to be safe, or match userType.
-                // If I set role=OWNER, they might get access if I only check role.
-                // My auth.config checks ONLY isLoggedIn or role=ADMIN.
-                // So regular users access is binary for now.
-                // Best practice: Use status=PENDING to block access.
+                profileImageUrl,
+                role: "PUBLIC",
                 status: "PENDING",
             },
         });
