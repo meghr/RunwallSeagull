@@ -33,8 +33,8 @@ export default async function DashboardPage() {
     ]);
 
     const stats = statsResult.success ? statsResult.data : null;
-    const notices = noticesResult.success ? noticesResult.data : [];
-    const registrations = registrationsResult.success ? registrationsResult.data : [];
+    const notices = noticesResult.success && noticesResult.data ? noticesResult.data : [];
+    const registrations = registrationsResult.success && registrationsResult.data ? registrationsResult.data : [];
 
     return (
         <div className="min-h-screen bg-slate-950 text-white">

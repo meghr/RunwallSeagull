@@ -7,14 +7,6 @@ import { Notice, NoticeType, Visibility } from "@prisma/client";
 import { deleteNotice } from "@/lib/actions/admin-notice";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"; // Assuming you have a Table component, if not I'll use div structure
 import { Edit2, Trash2, Eye, EyeOff, FileText, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";

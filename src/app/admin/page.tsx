@@ -1,10 +1,9 @@
 import { Suspense } from "react";
-import { getAdminStats, getRecentActivity } from "@/lib/actions/admin-dashboard.ts"; // Note: .ts extension usually not needed in import path but Next.js resolves it
+import { getAdminStats, getRecentActivity } from "@/lib/actions/admin-dashboard";
 import { AdminStatsCards } from "@/components/admin/dashboard/admin-stats-cards";
 import { RecentActivityFeed } from "@/components/admin/dashboard/recent-activity-feed";
 import { QuickActions } from "@/components/admin/dashboard/quick-actions";
 import { Loader2 } from "lucide-react";
-import { getAdminStats as fetchStats, getRecentActivity as fetchActivity } from "@/lib/actions/admin-dashboard";
 
 export const metadata = {
     title: "Admin Dashboard | Runwal Seagull",
@@ -12,8 +11,8 @@ export const metadata = {
 };
 
 export default async function AdminDashboard() {
-    const statsResult = await fetchStats();
-    const activityResult = await fetchActivity();
+    const statsResult = await getAdminStats();
+    const activityResult = await getRecentActivity();
 
     const stats = statsResult.success && statsResult.data ? statsResult.data : {
         totalUsers: 0,

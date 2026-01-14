@@ -20,7 +20,6 @@ interface Building {
 interface Flat {
     id: string;
     flatNumber: string;
-    status: string;
 }
 
 export default function RegisterPage() {

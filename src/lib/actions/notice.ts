@@ -20,7 +20,7 @@ export async function getPublicNotices(limit: number = 10) {
                 noticeType: true,
                 attachmentUrls: true,
                 publishedAt: true,
-                createdBy: {
+                creator: {
                     select: {
                         name: true,
                     },
@@ -40,7 +40,7 @@ export async function getNoticeById(id: string) {
         const notice = await prisma.notice.findUnique({
             where: { id },
             include: {
-                createdBy: {
+                creator: {
                     select: {
                         name: true,
                         role: true,

@@ -98,16 +98,16 @@ export default async function NoticeDetailPage({
                     </div>
 
                     {/* Attachments */}
-                    {notice.attachmentUrls && notice.attachmentUrls.length > 0 && (
+                    {notice.attachmentUrls && Array.isArray(notice.attachmentUrls) && notice.attachmentUrls.length > 0 && (
                         <div className="space-y-3">
                             <div className="border-t border-white/10 pt-6">
                                 <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                                     <FileText className="h-5 w-5 text-sky-400" />
-                                    Attachments ({notice.attachmentUrls.length})
+                                    Attachments ({(notice.attachmentUrls as string[]).length})
                                 </h2>
                             </div>
                             <div className="grid gap-3 sm:grid-cols-2">
-                                {notice.attachmentUrls.map((url: string, index: number) => {
+                                {(notice.attachmentUrls as string[]).map((url: string, index: number) => {
                                     const filename = url.split("/").pop() || `attachment-${index + 1}`;
 
                                     return (

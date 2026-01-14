@@ -6,10 +6,35 @@ import { EventModal } from "./event-modal";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { getEventStatus } from "@/lib/actions/event";
 
 interface EventsSectionProps {
     events: any[];
+}
+
+// Local helper to compute event status (not a server action)
+function computeEventStatus(event: any): string {
+    const now = new Date();
+
+    if (!event.registrationRequired) {
+        return "NO_REGISTRATION";
+    }
+
+    const regStart = event.registrationStartDate ? new Date(event.registrationStartDate) : null;
+    const regEnd = event.registrationEndDate ? new Date(event.registrationEndDate) : null;
+
+    if (regStart && now < regStart) {
+        return "NOT_STARTED";
+    }
+
+    if (regEnd && now > regEnd) {
+        return "CLOSED";
+    }
+
+    if (event.maxParticipants && event._count?.registrations >= event.maxParticipants) {
+        return "FULL";
+    }
+
+    return "OPEN";
 }
 
 export function EventsSection({ events }: EventsSectionProps) {
@@ -28,7 +53,7 @@ export function EventsSection({ events }: EventsSectionProps) {
         <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {events.slice(0, 6).map((event) => {
-                    const status = getEventStatus(event);
+                    const status = computeEventStatus(event);
                     return (
                         <EventCard
                             key={event.id}
@@ -38,7 +63,7 @@ export function EventsSection({ events }: EventsSectionProps) {
                                 const fullEvent = events.find(e => e.id === id);
                                 if (fullEvent) {
                                     setSelectedEvent(fullEvent);
-                                    setSelectedEventStatus(getEventStatus(fullEvent));
+                                    setSelectedEventStatus(computeEventStatus(fullEvent));
                                 }
                             }}
                         />

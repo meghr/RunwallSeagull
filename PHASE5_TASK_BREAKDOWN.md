@@ -37,52 +37,55 @@
 
 **Status**: ✅ Complete - January 13, 2026
 
-### Task 5.3: Event Management (Admin) ⏳ PENDING
-- [ ] Create event management page (`/admin/events`)
+### Task 5.3: Event Management (Admin) ✅ COMPLETE
+- [x] Create event management page (`/admin/events`)
 - **Event Creation:**
-    - [ ] Build comprehensive event creation form
-    - [ ] Event name and description (rich text)
-    - [ ] Event category dropdown (Sports, Cultural, Other)
-    - [ ] Event start/end date/time pickers
-    - [ ] Venue/location input
-    - [ ] Registration start/end date/time pickers
-    - [ ] Participation type selector (Individual/Team)
-    - [ ] Max participants limit (optional)
-    - [ ] Event image upload functionality
-    - [ ] Implement "Save as Draft" and "Publish" buttons
-    - [ ] Ensure published events appear in public domain
-    - [ ] Create event creation/update API endpoints
+    - [x] Build comprehensive event creation form
+    - [x] Event name and description (rich text)
+    - [x] Event category dropdown (Sports, Cultural, Other)
+    - [x] Event start/end date/time pickers
+    - [x] Venue/location input
+    - [x] Registration start/end date/time pickers
+    - [x] Participation type selector (Individual/Team)
+    - [x] Max participants limit (optional)
+    - [x] Event image upload functionality
+    - [x] Implement "Save as Draft" and "Publish" buttons
+    - [x] Ensure published events appear in public domain
+    - [x] Create event creation/update API endpoints
 - **Registration Management:**
-    - [ ] Build real-time registration dashboard for each event
-    - [ ] Show live registration count and total participants (incl. team members)
-    - [ ] List all registered users with team details
-    - [ ] Show registration status (Open/Closed/Not Started) logic
-    - [ ] Display time remaining until registration closes
-    - [ ] Implement automatic registration enable/disable based on dates
-    - [ ] View detailed participant info and team compositions
-    - [ ] Export registration list to CSV/Excel
+    - [x] Build real-time registration dashboard for each event
+    - [x] Show live registration count and total participants (incl. team members)
+    - [x] List all registered users with team details
+    - [x] Show registration status (Open/Closed/Not Started) logic
+    - [x] Display time remaining until registration closes
+    - [x] Implement automatic registration enable/disable based on dates
+    - [x] View detailed participant info and team compositions
+    - [x] Export registration list to CSV/Excel
 - **Admin Actions:**
     - [ ] Send event notification emails to registered users (Deferred - Email Service)
-    - [ ] Edit event details (with validation if registrations exist)
-    - [ ] Cancel events with notification
-    - [ ] Manually close event registrations
-    - [ ] View event analytics
+    - [x] Edit event details (with validation if registrations exist)
+    - [x] Cancel events with notification
+    - [x] Manually close event registrations
+    - [x] View event analytics
 
-**Status**: ⏳ Pending
+**Status**: ✅ Complete - January 14, 2026
 
-### Task 5.4: User Management (Admin) ⏳ PENDING
-- [ ] Create user management page (`/admin/users`)
-- [ ] Display all users in table view
-- [ ] Add filters (by role, status, building)
-- [ ] Implement search by name, email, flat number
-- [ ] Create user detail modal
-- [ ] Add suspend/reactivate user functionality
-- [ ] Implement role change (upgrade user to admin)
-- [ ] Add password reset functionality (Admin trigger)
-- [ ] View user activity logs
-- [ ] Export user list (CSV)
+### Task 5.4: User Management (Admin) ✅ COMPLETE
+- [x] Create user management page (`/admin/users`)
+- [x] Display all users in table view
+- [x] Add filters (by role, status, building)
+- [x] Implement search by name, email, flat number
+- [x] Create user detail modal
+- [x] Add suspend/reactivate user functionality
+- [x] Implement role change (upgrade user to admin)
+- [x] Add password reset functionality (Admin trigger)
+- [x] View user activity logs
+- [x] Export user list (CSV)
 
-**Status**: ⏳ Pending
+**Status**: ✅ Complete - January 14, 2026
+**Components**: `UserList`, `UserDetailModal`, `UserManagement`
+**Page**: `/admin/users/page.tsx`
+**Server Actions**: `getAdminUsers`, `getAdminUserById`, `updateUserStatus`, `updateUserRole`, `resetUserPassword`, `getUserActivityLogs`, `exportUsersToCSV`
 
 ### Task 5.5: Marketplace Moderation (Admin) ⏳ PENDING
 - [ ] Create marketplace moderation page (`/admin/marketplace`)
@@ -99,16 +102,16 @@
 
 ## 📊 Phase 5 Progress Summary
 
-**Overall Progress**: 40% (2 of 5 tasks complete)
+**Overall Progress**: 80% (4 of 5 tasks complete)
 
 ### Completed (✅):
 1. Task 5.1: Admin Dashboard
 2. Task 5.2: Notice Management
+3. Task 5.3: Event Management
+4. Task 5.4: User Management
 
 ### Pending (⏳):
-1. Task 5.3: Event Management
-2. Task 5.4: User Management
-3. Task 5.5: Marketplace Moderation
+1. Task 5.5: Marketplace Moderation
 
 ---
 

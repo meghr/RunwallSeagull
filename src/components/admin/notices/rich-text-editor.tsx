@@ -54,7 +54,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
         <div className="flex flex-wrap gap-1 p-2 border-b border-white/10 bg-white/5 rounded-t-lg">
             <Button
                 type="button"
-                variant={editor.isActive("bold") ? "secondary" : "ghost"}
+                variant={editor.isActive("bold") ? "default" : "ghost"}
                 size="sm"
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 className="h-8 w-8 p-0"
@@ -63,7 +63,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
             </Button>
             <Button
                 type="button"
-                variant={editor.isActive("italic") ? "secondary" : "ghost"}
+                variant={editor.isActive("italic") ? "default" : "ghost"}
                 size="sm"
                 onClick={() => editor.chain().focus().toggleItalic().run()}
                 className="h-8 w-8 p-0"
@@ -72,7 +72,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
             </Button>
             <Button
                 type="button"
-                variant={editor.isActive("strike") ? "secondary" : "ghost"}
+                variant={editor.isActive("strike") ? "default" : "ghost"}
                 size="sm"
                 onClick={() => editor.chain().focus().toggleStrike().run()}
                 className="h-8 w-8 p-0"
@@ -81,7 +81,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
             </Button>
             <Button
                 type="button"
-                variant={editor.isActive("code") ? "secondary" : "ghost"}
+                variant={editor.isActive("code") ? "default" : "ghost"}
                 size="sm"
                 onClick={() => editor.chain().focus().toggleCode().run()}
                 className="h-8 w-8 p-0"
@@ -93,7 +93,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
 
             <Button
                 type="button"
-                variant={editor.isActive("heading", { level: 2 }) ? "secondary" : "ghost"}
+                variant={editor.isActive("heading", { level: 2 }) ? "default" : "ghost"}
                 size="sm"
                 onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
                 className="h-8 w-8 p-0"
@@ -102,7 +102,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
             </Button>
             <Button
                 type="button"
-                variant={editor.isActive("heading", { level: 3 }) ? "secondary" : "ghost"}
+                variant={editor.isActive("heading", { level: 3 }) ? "default" : "ghost"}
                 size="sm"
                 onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
                 className="h-8 w-8 p-0"
@@ -114,7 +114,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
 
             <Button
                 type="button"
-                variant={editor.isActive("bulletList") ? "secondary" : "ghost"}
+                variant={editor.isActive("bulletList") ? "default" : "ghost"}
                 size="sm"
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
                 className="h-8 w-8 p-0"
@@ -123,7 +123,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
             </Button>
             <Button
                 type="button"
-                variant={editor.isActive("orderedList") ? "secondary" : "ghost"}
+                variant={editor.isActive("orderedList") ? "default" : "ghost"}
                 size="sm"
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
                 className="h-8 w-8 p-0"
@@ -132,7 +132,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
             </Button>
             <Button
                 type="button"
-                variant={editor.isActive("blockquote") ? "secondary" : "ghost"}
+                variant={editor.isActive("blockquote") ? "default" : "ghost"}
                 size="sm"
                 onClick={() => editor.chain().focus().toggleBlockquote().run()}
                 className="h-8 w-8 p-0"
@@ -144,7 +144,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
 
             <Button
                 type="button"
-                variant={editor.isActive("link") ? "secondary" : "ghost"}
+                variant={editor.isActive("link") ? "default" : "ghost"}
                 size="sm"
                 onClick={setLink}
                 className="h-8 w-8 p-0"

@@ -12,7 +12,7 @@ interface NoticeModalProps {
         content: string;
         noticeType: string;
         publishedAt: Date;
-        createdBy: { name: string };
+        creator: { name: string };
         attachmentUrls: string[] | null;
     } | null;
     onClose: () => void;
@@ -58,7 +58,7 @@ export function NoticeModal({ notice, onClose }: NoticeModalProps) {
                             </div>
                             <div className="flex items-center gap-1.5">
                                 <User className="h-4 w-4" />
-                                <span>By {notice.createdBy.name}</span>
+                                <span>By {notice.creator?.name || "Admin"}</span>
                             </div>
                         </div>
                     </div>

@@ -94,7 +94,7 @@ export async function createNotice(data: NoticeData) {
 
         const validated = noticeSchema.safeParse(data);
         if (!validated.success) {
-            return { success: false, error: validated.error.errors[0].message };
+            return { success: false, error: validated.error.issues[0].message };
         }
 
         const notice = await prisma.notice.create({

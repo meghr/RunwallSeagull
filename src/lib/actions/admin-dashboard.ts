@@ -47,7 +47,7 @@ export async function getAdminStats() {
             prisma.marketplaceAd.count({ where: { status: "ACTIVE" } }),
             prisma.notice.count(),
             prisma.event.count(),
-            prisma.complaint.count({ where: { status: { in: ["OPEN", "IN_PROGRESS"] } } })
+            prisma.complaint.count({ where: { status: { in: ["SUBMITTED", "ASSIGNED", "IN_PROGRESS"] } } })
         ]);
 
         return {

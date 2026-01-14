@@ -18,7 +18,7 @@ export async function getFlats(buildingId: string) {
     try {
         const flats = await prisma.flat.findMany({
             where: { buildingId },
-            select: { id: true, flatNumber: true, status: true },
+            select: { id: true, flatNumber: true },
             orderBy: { flatNumber: "asc" },
         });
         return flats;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState } from "react";
 import Link from "next/link";
 import { authenticate } from "@/lib/actions/auth"; // Server Action
 import { Input } from "@/components/ui/input";
@@ -8,29 +8,10 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
-    const [error, setError] = useState<string | null>(null);
-    const [isPending, setIsPending] = useState(false);
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setIsPending(true);
-        setError(null);
-
-        const formData = new FormData(e.currentTarget);
-
-        try {
-            const result = await authenticate(undefined, formData);
-            if (result) {
-                setError(result);
-                setIsPending(false);
-            }
-            // If successful, authenticate redirects, so we don't need to do anything here generally.
-            // But if it doesn't, we might be stuck.
-        } catch (err) {
-            setError("An unexpected error occurred.");
-            setIsPending(false);
-        }
-    };
+    const [errorMessage, formAction, isPending] = useActionState(
+        authenticate,
+        undefined,
+    );
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800 p-4">
@@ -41,13 +22,13 @@ export default function LoginPage() {
                         <p className="mt-2 text-slate-400">Sign in to your account</p>
                     </div>
 
-                    {error && (
+                    {errorMessage && (
                         <div className="mb-6 rounded-md bg-red-500/10 p-4 text-sm text-red-400 border border-red-500/20">
-                            {error}
+                            {errorMessage}
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form action={formAction} className="space-y-6">
                         <div className="space-y-2">
                             <Label className="text-slate-200">Email Address</Label>
                             <Input

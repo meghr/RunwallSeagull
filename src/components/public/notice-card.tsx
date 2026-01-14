@@ -11,7 +11,7 @@ interface NoticeCardProps {
         content: string;
         noticeType: string;
         publishedAt: Date;
-        createdBy: { name: string };
+        creator: { name: string };
         attachmentUrls: string[] | null;
     };
     onClick: (id: string) => void;
@@ -61,7 +61,7 @@ export function NoticeCard({ notice, onClick }: NoticeCardProps) {
                         </div>
                         <div className="flex items-center gap-1">
                             <User className="h-3.5 w-3.5" />
-                            <span>{notice.createdBy.name}</span>
+                            <span>{notice.creator?.name || "Admin"}</span>
                         </div>
                     </div>
                     {notice.attachmentUrls && notice.attachmentUrls.length > 0 && (
