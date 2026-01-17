@@ -42,7 +42,7 @@
       {
         "outputDir": "F:/RunwalSeagull/runwal-seagull/playwright-results",
         "repeatEach": 1,
-        "retries": 1,
+        "retries": 0,
         "metadata": {
           "actualWorkers": 1
         },
@@ -71,20 +71,20 @@
   },
   "suites": [
     {
-      "title": "event-team-registration.spec.ts",
-      "file": "event-team-registration.spec.ts",
+      "title": "admin-users.spec.ts",
+      "file": "admin-users.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "E2E-003: Complete Event Registration (Team)",
-          "file": "event-team-registration.spec.ts",
-          "line": 12,
+          "title": "Phase 5: Admin Portal - User Management Tests",
+          "file": "admin-users.spec.ts",
+          "line": 10,
           "column": 6,
           "specs": [
             {
-              "title": "Execute complete team event registration flow",
+              "title": "AUSR-002: Filter by role - Admin selected",
               "ok": true,
               "tags": [],
               "tests": [
@@ -99,22 +99,123 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 12397,
+                      "duration": 10503,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-17T13:27:38.357Z",
+                      "startTime": "2026-01-17T19:06:19.708Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "F:\\RunwalSeagull\\runwal-seagull\\playwright-results\\admin-users-Phase-5-Admin--0395a-er-by-role---Admin-selected-chromium\\video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "F:\\RunwalSeagull\\runwal-seagull\\playwright-results\\admin-users-Phase-5-Admin--0395a-er-by-role---Admin-selected-chromium\\trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
                 }
               ],
-              "id": "34de69d0d2f537b0816c-c4765f623d5d7094299e",
-              "file": "event-team-registration.spec.ts",
-              "line": 115,
+              "id": "9d69cbef181f9ad01509-429eb6090b43b09a436e",
+              "file": "admin-users.spec.ts",
+              "line": 255,
+              "column": 9
+            },
+            {
+              "title": "AUSR-003: Filter by status - Pending selected",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7983,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-17T19:06:34.296Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "F:\\RunwalSeagull\\runwal-seagull\\playwright-results\\admin-users-Phase-5-Admin--b35fb-y-status---Pending-selected-chromium\\video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "F:\\RunwalSeagull\\runwal-seagull\\playwright-results\\admin-users-Phase-5-Admin--b35fb-y-status---Pending-selected-chromium\\trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9d69cbef181f9ad01509-e08846e59c4a087e2ae6",
+              "file": "admin-users.spec.ts",
+              "line": 276,
+              "column": 9
+            },
+            {
+              "title": "AUSR-004: Filter by building - Specific building",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6860,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-17T19:06:42.469Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "F:\\RunwalSeagull\\runwal-seagull\\playwright-results\\admin-users-Phase-5-Admin--56780-uilding---Specific-building-chromium\\video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "F:\\RunwalSeagull\\runwal-seagull\\playwright-results\\admin-users-Phase-5-Admin--56780-uilding---Specific-building-chromium\\trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9d69cbef181f9ad01509-57112aec37d66867da70",
+              "file": "admin-users.spec.ts",
+              "line": 297,
               "column": 9
             }
           ]
@@ -124,9 +225,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-01-17T13:27:35.653Z",
-    "duration": 18657.648,
-    "expected": 1,
+    "startTime": "2026-01-17T19:06:07.834Z",
+    "duration": 43365.748999999996,
+    "expected": 3,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

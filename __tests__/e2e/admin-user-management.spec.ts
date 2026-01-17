@@ -26,21 +26,28 @@ test.describe("E2E-005: Admin User Lifecycle Management", () => {
         await prisma.flat.deleteMany({
             where: { flatNumber: { startsWith: PREFIX } }
         });
+        await prisma.flat.deleteMany({
+            where: { building: { buildingCode: "E2E_EB5" } }
+        });
         await prisma.building.deleteMany({
             where: { name: { startsWith: PREFIX } }
+        });
+        await prisma.building.deleteMany({
+            where: { buildingCode: "E2E_EB5" }
         });
 
         // Create Building and Flat
         building = await prisma.building.create({
             data: {
                 name: PREFIX + "Building B",
-                buildingCode: "EB5",
+                buildingCode: "E2E_EB5",
+                isActiveForRegistration: true,
             }
         });
 
         flat = await prisma.flat.create({
             data: {
-                flatNumber: PREFIX + "505",
+                flatNumber: "1505",
                 floorNumber: 5,
                 buildingId: building.id,
                 bhkType: "3BHK",
@@ -67,12 +74,13 @@ test.describe("E2E-005: Admin User Lifecycle Management", () => {
         await page.click('button:has-text("Owner")'); // Default but good to be explicit
         await page.fill('input[name="name"]', PREFIX + "Test User");
         await page.fill('input[name="email"]', USER_EMAIL);
+        await page.fill('input[name="phoneNumber"]', "9876543210");
 
         // Select Building
         await page.selectOption('select[name="buildingId"]', building.id);
 
         // Select Flat
-        await page.selectOption('select[name="flatId"]', flat.id);
+        await page.locator('input[name="flatNumber"]').fill("1505");
 
         await page.fill('input[name="password"]', PASSWORD);
         await page.fill('input[name="confirmPassword"]', PASSWORD);
@@ -208,8 +216,14 @@ test.describe("E2E-005: Admin User Lifecycle Management", () => {
             await prisma.flat.deleteMany({
                 where: { flatNumber: { startsWith: PREFIX } }
             });
+            await prisma.flat.deleteMany({
+                where: { building: { buildingCode: "E2E_EB5" } }
+            });
             await prisma.building.deleteMany({
                 where: { name: { startsWith: PREFIX } }
+            });
+            await prisma.building.deleteMany({
+                where: { buildingCode: "E2E_EB5" }
             });
         } catch (error) {
             console.error("Cleanup error:", error);

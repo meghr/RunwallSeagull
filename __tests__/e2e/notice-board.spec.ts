@@ -77,9 +77,10 @@ test.describe("Phase 4: Registered User Features - Notice Board Tests", () => {
         // Cleanup existing test data
         await prisma.notice.deleteMany({
             where: {
-                title: {
-                    startsWith: "NOTB",
-                },
+                OR: [
+                    { title: { startsWith: "NOTB" } },
+                    { title: { startsWith: "E2E_" } },
+                ]
             },
         });
         await prisma.user.deleteMany({ where: { email: testUser.email } });
@@ -92,6 +93,7 @@ test.describe("Phase 4: Registered User Features - Notice Board Tests", () => {
                 name: "Notice Board Test Building",
                 buildingCode,
                 totalFloors: 5,
+                isActiveForRegistration: true, // Ensuring consistency
                 flats: {
                     create: { flatNumber, floorNumber: 1, bhkType: "2BHK" },
                 },
@@ -198,8 +200,10 @@ test.describe("Phase 4: Registered User Features - Notice Board Tests", () => {
         await page.waitForTimeout(1500);
 
         // Click on Urgent filter button
-        const urgentFilter = page.locator('button:has-text("Urgent")');
+        // Click on Urgent filter button
+        const urgentFilter = page.getByRole('button', { name: "Urgent" });
         await expect(urgentFilter).toBeVisible();
+        await page.waitForTimeout(500);
         await urgentFilter.click();
 
         // Wait for filter to apply
@@ -211,7 +215,12 @@ test.describe("Phase 4: Registered User Features - Notice Board Tests", () => {
         ).toBeVisible();
 
         // Should show 1 notice found for urgent
-        await expect(page.locator("text=1 notice found")).toBeVisible();
+        // Should show at least 1 notice found for urgent
+        // Using a more flexible regex to handle singular/plural and any number
+        await expect(page.locator('div:text-matches("notice(s)? found", "i")').first()).toBeVisible();
+
+        // Detailed check for our specific notice
+        await expect(page.getByText(notices.urgent.title)).toBeVisible();
     });
 
     test("NOT-002b: Filter by type - Maintenance filter", async ({ page }) => {

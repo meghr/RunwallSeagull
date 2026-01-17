@@ -82,14 +82,17 @@ test.describe("Phase 5: Admin Portal - User Management Tests", () => {
         await prisma.user.deleteMany({ where: testUserEmailFilter });
 
         // 4. Delete Location records
-        await prisma.flat.deleteMany({ where: { flatNumber: { startsWith: "E2E_" } } });
-        await prisma.building.deleteMany({ where: { name: { startsWith: "E2E_" } } });
+        await prisma.flat.deleteMany({ where: { flatNumber: { startsWith: PREFIX } } });
+        await prisma.flat.deleteMany({ where: { building: { buildingCode: "E2EAUSR_B1" } } });
+        await prisma.building.deleteMany({ where: { name: { startsWith: PREFIX } } });
+        await prisma.building.deleteMany({ where: { buildingCode: { in: ["E2EAUSR_B1", "E2EAUSR_B2"] } } });
 
         // Create Building and Flat
         building = await prisma.building.create({
             data: {
                 name: PREFIX + "Building",
-                buildingCode: "B1",
+                buildingCode: "E2EAUSR_B1",
+                isActiveForRegistration: true,
             }
         });
 
@@ -99,6 +102,14 @@ test.describe("Phase 5: Admin Portal - User Management Tests", () => {
                 floorNumber: 1,
                 buildingId: building.id,
                 bhkType: "2BHK",
+            }
+        });
+
+        const building2 = await prisma.building.create({
+            data: {
+                name: PREFIX + "Other_Building",
+                buildingCode: "E2EAUSR_B2",
+                isActiveForRegistration: true,
             }
         });
 
@@ -218,8 +229,8 @@ test.describe("Phase 5: Admin Portal - User Management Tests", () => {
                 role: "ADMIN",
                 status: "APPROVED",
                 userType: "OWNER",
-                buildingId: building.id,
-                flatId: flat.id,
+                buildingId: building2.id,
+                flatId: null,
             }
         });
     });
@@ -243,11 +254,20 @@ test.describe("Phase 5: Admin Portal - User Management Tests", () => {
 
     test("AUSR-002: Filter by role - Admin selected", async ({ page }) => {
         await loginAsAdmin(page);
-        await page.click('button:has-text("Filters")');
+        await page.waitForTimeout(2000); // Give plenty of time for hydration
 
-        // Select ADMIN role
-        await page.click('button:has-text("All Roles")');
-        await page.click('div[role="option"]:has-text("Admin")');
+        // If filters are not visible, click the toggle
+        const roleTrigger = page.locator('button').filter({ hasText: "All Roles" });
+        if (!await roleTrigger.isVisible()) {
+            await page.click('button:has-text("Filters")');
+            await expect(roleTrigger).toBeVisible({ timeout: 10000 });
+        }
+
+        // Open Role dropdown and select Admin
+        await roleTrigger.click();
+
+        // Select Admin option - using regex to be safe with any hidden icon text
+        await page.getByRole("option", { name: /^Admin$/i }).click();
 
         await expect(page.getByText(PREFIX + "Other_Admin")).toBeVisible();
         await expect(page.getByText(PREFIX + "Approved_User")).not.toBeVisible();
@@ -255,11 +275,20 @@ test.describe("Phase 5: Admin Portal - User Management Tests", () => {
 
     test("AUSR-003: Filter by status - Pending selected", async ({ page }) => {
         await loginAsAdmin(page);
-        await page.click('button:has-text("Filters")');
+        await page.waitForTimeout(2000);
 
-        // Select PENDING status
-        await page.click('button:has-text("All Status")');
-        await page.click('div[role="option"]:has-text("Pending")');
+        // If filters are not visible, click the toggle
+        const statusTrigger = page.locator('button').filter({ hasText: "All Status" });
+        if (!await statusTrigger.isVisible()) {
+            await page.click('button:has-text("Filters")');
+            await expect(statusTrigger).toBeVisible({ timeout: 10000 });
+        }
+
+        // Open Status dropdown and select Pending
+        await statusTrigger.click();
+
+        // Select Pending option
+        await page.getByRole("option", { name: /^Pending$/i }).click();
 
         await expect(page.getByText(PREFIX + "Pending_User")).toBeVisible();
         await expect(page.getByText(PREFIX + "Approved_User")).not.toBeVisible();
@@ -267,13 +296,23 @@ test.describe("Phase 5: Admin Portal - User Management Tests", () => {
 
     test("AUSR-004: Filter by building - Specific building", async ({ page }) => {
         await loginAsAdmin(page);
-        await page.click('button:has-text("Filters")');
+        await page.waitForTimeout(2000);
 
-        // Building filter
-        await page.click('button:has-text("All Buildings")');
-        await page.click(`div[role="option"]:has-text("${PREFIX}Building")`);
+        // If filters are not visible, click the toggle
+        const buildingTrigger = page.locator('button').filter({ hasText: "All Buildings" });
+        if (!await buildingTrigger.isVisible()) {
+            await page.click('button:has-text("Filters")');
+            await expect(buildingTrigger).toBeVisible({ timeout: 10000 });
+        }
+
+        // Open Building dropdown and select building
+        await buildingTrigger.click();
+
+        // Select specific building - name contains PREFIX + "Building"
+        await page.getByRole("option", { name: new RegExp(PREFIX + "Building") }).click();
 
         await expect(page.getByText(PREFIX + "Pending_User")).toBeVisible();
+        await expect(page.getByText(PREFIX + "Other_Admin")).not.toBeVisible();
     });
 
     test("AUSR-005: Search by name", async ({ page }) => {
@@ -446,5 +485,28 @@ test.describe("Phase 5: Admin Portal - User Management Tests", () => {
         });
 
         await row.locator('button:has-text("Remove Admin")').click();
+    });
+
+    // CLEANUP: Restore database to original state
+    test.afterAll(async () => {
+        try {
+            // Delete in order respecting foreign key constraints
+            await prisma.activityLog.deleteMany({ where: { user: { email: { startsWith: PREFIX } } } });
+            await prisma.eventRegistration.deleteMany({ where: { user: { email: { startsWith: PREFIX } } } });
+            await prisma.vehicle.deleteMany({ where: { user: { email: { startsWith: PREFIX } } } });
+            await prisma.user.updateMany({
+                where: { approvedBy: { not: null }, email: { startsWith: PREFIX } },
+                data: { approvedBy: null }
+            });
+            await prisma.user.deleteMany({ where: { email: { startsWith: PREFIX } } });
+            await prisma.flat.deleteMany({ where: { flatNumber: { startsWith: PREFIX } } });
+            await prisma.flat.deleteMany({ where: { building: { buildingCode: { in: ["E2EAUSR_B1", "E2EAUSR_B2"] } } } });
+            await prisma.building.deleteMany({ where: { name: { startsWith: PREFIX } } });
+            await prisma.building.deleteMany({ where: { buildingCode: { in: ["E2EAUSR_B1", "E2EAUSR_B2"] } } });
+        } catch (error) {
+            console.error("Cleanup error:", error);
+        } finally {
+            await prisma.$disconnect();
+        }
     });
 });

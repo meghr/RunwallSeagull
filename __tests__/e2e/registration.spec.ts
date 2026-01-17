@@ -4,7 +4,8 @@ import { prisma } from "@/lib/db";
 test.describe("Phase 2: Authentication & User Management", () => {
     const buildingCode = "REG_E2E";
     const buildingName = "Registration Tower";
-    const flatNumber = "REG-101";
+    const flatNumber = "1101"; // Must be numeric for UI
+    const password = "Password@123";
     const userEmail = "reg-001@test.com";
 
     test.beforeAll(async () => {
@@ -19,6 +20,7 @@ test.describe("Phase 2: Authentication & User Management", () => {
                 name: buildingName,
                 buildingCode: buildingCode,
                 totalFloors: 5,
+                isActiveForRegistration: true,
                 flats: {
                     create: {
                         flatNumber: flatNumber,
@@ -52,13 +54,14 @@ test.describe("Phase 2: Authentication & User Management", () => {
         await test.step("2. Fill Personal & Property Details", async () => {
             await page.fill('input[name="name"]', "Test Registrant");
             await page.fill('input[name="email"]', userEmail);
+            await page.fill('input[name="phoneNumber"]', "9876543210");
             await page.fill('input[name="password"]', "Test@12345");
             await page.fill('input[name="confirmPassword"]', "Test@12345");
             await page.click("button:has-text('Owner')");
-            await page.locator('select[name="buildingId"]').selectOption({ label: buildingName });
-            const flatSelect = page.locator('select[name="flatId"]');
-            await expect(flatSelect).toBeEnabled();
-            await flatSelect.selectOption({ label: flatNumber });
+            await page.locator('select[name="buildingId"]').selectOption({ label: buildingCode });
+            const flatInput = page.locator('input[name="flatNumber"]');
+            await expect(flatInput).toBeEnabled();
+            await flatInput.fill(flatNumber);
         });
 
         await test.step("3. Submit Form", async () => {
@@ -85,13 +88,14 @@ test.describe("Phase 2: Authentication & User Management", () => {
         await test.step("2. Fill Form with Existing Email", async () => {
             await page.fill('input[name="name"]', "Duplicate User");
             await page.fill('input[name="email"]', userEmail);
+            await page.fill('input[name="phoneNumber"]', "9876543210");
             await page.fill('input[name="password"]', "Test@12345");
             await page.fill('input[name="confirmPassword"]', "Test@12345");
             await page.click("button:has-text('Tenant')");
-            await page.locator('select[name="buildingId"]').selectOption({ label: buildingName });
-            const flatSelect = page.locator('select[name="flatId"]');
-            await expect(flatSelect).toBeEnabled();
-            await flatSelect.selectOption({ label: flatNumber });
+            await page.locator('select[name="buildingId"]').selectOption({ label: buildingCode });
+            const flatInput = page.locator('input[name="flatNumber"]');
+            await expect(flatInput).toBeEnabled();
+            await flatInput.fill(flatNumber);
         });
 
         await test.step("3. Submit Form", async () => {
@@ -129,14 +133,15 @@ test.describe("Phase 2: Authentication & User Management", () => {
         await test.step("Fill Weak Password", async () => {
             await page.fill('input[name="name"]', "Weak Password User");
             await page.fill('input[name="email"]', "weak@test.com");
+            await page.fill('input[name="phoneNumber"]', "9876543210");
             await page.fill('input[name="password"]', "123"); // Likely too short
             await page.fill('input[name="confirmPassword"]', "123");
             // ... fill others ...
             await page.click("button:has-text('Owner')");
-            await page.locator('select[name="buildingId"]').selectOption({ label: buildingName });
-            const flatSelect = page.locator('select[name="flatId"]');
-            await expect(flatSelect).toBeEnabled();
-            await flatSelect.selectOption({ label: flatNumber });
+            await page.locator('select[name="buildingId"]').selectOption({ label: buildingCode });
+            const flatInput = page.locator('input[name="flatNumber"]');
+            await expect(flatInput).toBeEnabled();
+            await flatInput.fill(flatNumber);
         });
 
         await test.step("Submit and Verify Error", async () => {
@@ -171,24 +176,22 @@ test.describe("Phase 2: Authentication & User Management", () => {
         });
     });
 
-    test("REG-006: Building selection populates flats", async ({ page }, testInfo) => {
+    test("REG-006: Building selection enables flat input", async ({ page }, testInfo) => {
         await page.goto("/register");
-        await page.locator('select[name="buildingId"]').selectOption({ label: buildingName });
+        await page.locator('select[name="buildingId"]').selectOption({ label: buildingCode });
 
-        const flatSelect = page.locator('select[name="flatId"]');
-        await expect(flatSelect).toBeEnabled();
-        const optionCount = await flatSelect.locator('option').count();
-        expect(optionCount).toBeGreaterThan(1); // Default option + flats
+        const flatInput = page.locator('input[name="flatNumber"]');
+        await expect(flatInput).toBeEnabled();
         await attachScreenshot(page, testInfo, "Building Selection Evidence");
     });
 
-    test("REG-007: Flat selection", async ({ page }, testInfo) => {
+    test("REG-007: Flat entry", async ({ page }, testInfo) => {
         await page.goto("/register");
-        await page.locator('select[name="buildingId"]').selectOption({ label: buildingName });
-        await page.locator('select[name="flatId"]').selectOption({ label: flatNumber });
+        await page.locator('select[name="buildingId"]').selectOption({ label: buildingCode });
+        await page.locator('input[name="flatNumber"]').fill(flatNumber);
 
-        const value = await page.locator('select[name="flatId"]').inputValue();
-        expect(value).toBeTruthy();
+        const value = await page.locator('input[name="flatNumber"]').inputValue();
+        expect(value).toBe(flatNumber);
         await attachScreenshot(page, testInfo, "Flat Selection Evidence");
     });
 

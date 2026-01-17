@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 test.describe("Phase 2: Login Tests", () => {
     const buildingCode = "LOGIN_E2E";
     const buildingName = "Login Tower";
-    const flatNumber = "LOG-101";
+    const flatNumber = "1101";
     const password = "Password@123";
     const flowEmail = "flow-login@test.com";
 
@@ -39,6 +39,7 @@ test.describe("Phase 2: Login Tests", () => {
                 name: buildingName,
                 buildingCode,
                 totalFloors: 5,
+                isActiveForRegistration: true,
                 flats: {
                     create: { flatNumber, floorNumber: 1, bhkType: "2BHK" },
                 },
@@ -108,11 +109,12 @@ test.describe("Phase 2: Login Tests", () => {
             await page.goto("/register");
             await page.fill('input[name="name"]', "Login Flow User");
             await page.fill('input[name="email"]', flowEmail);
+            await page.fill('input[name="phoneNumber"]', "9876543210");
             await page.fill('input[name="password"]', password);
             await page.fill('input[name="confirmPassword"]', password);
             await page.click("button:has-text('Owner')");
-            await page.locator('select[name="buildingId"]').selectOption({ label: buildingName });
-            await page.locator('select[name="flatId"]').selectOption({ label: flatNumber });
+            await page.locator('select[name="buildingId"]').selectOption({ label: buildingCode });
+            await page.locator('input[name="flatNumber"]').fill(flatNumber);
 
             await page.click('button[type="submit"]');
             await expect(page.locator("text=Registration successful")).toBeVisible();
@@ -138,7 +140,7 @@ test.describe("Phase 2: Login Tests", () => {
         await test.step("4. Verify Redirect to Dashboard", async () => {
             // Validate dashboard URL and presence
             await expect(page).toHaveURL(/.*\/dashboard/, { timeout: 15000 });
-            await expect(page.locator("text=Dashboard")).toBeVisible();
+            await expect(page.getByRole('heading', { name: "Dashboard" })).toBeVisible();
             await attachScreenshot(page, testInfo, "Login Success Evidence");
         });
     });

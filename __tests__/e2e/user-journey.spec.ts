@@ -32,21 +32,28 @@ test.describe("E2E-001: Complete New User Registration to Dashboard Access", () 
         await prisma.flat.deleteMany({
             where: { flatNumber: { startsWith: PREFIX } }
         });
+        await prisma.flat.deleteMany({
+            where: { building: { buildingCode: "E2EJN_BA1" } }
+        });
         await prisma.building.deleteMany({
             where: { name: { startsWith: PREFIX } }
+        });
+        await prisma.building.deleteMany({
+            where: { buildingCode: "E2EJN_BA1" }
         });
 
         // Create Building and Flat
         building = await prisma.building.create({
             data: {
                 name: PREFIX + "Building A",
-                buildingCode: "BA1",
+                buildingCode: "E2EJN_BA1",
+                isActiveForRegistration: true,
             }
         });
 
         flat = await prisma.flat.create({
             data: {
-                flatNumber: PREFIX + "104",
+                flatNumber: "1004",
                 floorNumber: 1,
                 buildingId: building.id,
                 bhkType: "2BHK",
@@ -82,6 +89,7 @@ test.describe("E2E-001: Complete New User Registration to Dashboard Access", () 
         // 3. Fill registration form
         await page.fill('input[name="name"]', PREFIX + "Test User");
         await page.fill('input[name="email"]', NEW_USER_EMAIL);
+        await page.fill('input[name="phoneNumber"]', "9876543210");
         await page.fill('input[name="password"]', NEW_USER_PASSWORD);
         await page.fill('input[name="confirmPassword"]', NEW_USER_PASSWORD);
 
@@ -89,12 +97,13 @@ test.describe("E2E-001: Complete New User Registration to Dashboard Access", () 
         await page.click('button:has-text("Owner")');
 
         // Select Building - it's a native select
-        await page.selectOption('select[name="buildingId"]', { label: PREFIX + "Building A" });
+        await page.selectOption('select[name="buildingId"]', { label: "E2EJN_BA1" });
 
-        // Select Flat - it's a native select
+        // Select Flat - it's a manual input now
         // Wait for it to be enabled after building selection
-        await expect(page.locator('select[name="flatId"]')).toBeEnabled();
-        await page.selectOption('select[name="flatId"]', { label: PREFIX + "104" });
+        const flatInput = page.locator('input[name="flatNumber"]');
+        await expect(flatInput).toBeEnabled();
+        await flatInput.fill("1004");
 
         // 4. Submit form
         await page.click('button[type="submit"]');
@@ -167,7 +176,7 @@ test.describe("E2E-001: Complete New User Registration to Dashboard Access", () 
         // Building and Flat (in the My Residence section)
         const residenceSection = page.locator('text=My Residence').locator('..');
         await expect(page.getByText(PREFIX + "Building A")).toBeVisible();
-        await expect(page.getByText(PREFIX + "104")).toBeVisible();
+        await expect(page.getByText("1004")).toBeVisible();
     });
 
     // Cleanup: Delete test user, reset flat assignment
@@ -191,8 +200,14 @@ test.describe("E2E-001: Complete New User Registration to Dashboard Access", () 
             await prisma.flat.deleteMany({
                 where: { flatNumber: { startsWith: PREFIX } }
             });
+            await prisma.flat.deleteMany({
+                where: { building: { buildingCode: "E2EJN_BA1" } }
+            });
             await prisma.building.deleteMany({
                 where: { name: { startsWith: PREFIX } }
+            });
+            await prisma.building.deleteMany({
+                where: { buildingCode: "E2EJN_BA1" }
             });
         } catch (error) {
             console.error("Cleanup error:", error);
