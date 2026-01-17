@@ -498,7 +498,15 @@ test.describe("Phase 5: Admin Portal - User Management Tests", () => {
                 where: { approvedBy: { not: null }, email: { startsWith: PREFIX } },
                 data: { approvedBy: null }
             });
-            await prisma.user.deleteMany({ where: { email: { startsWith: PREFIX } } });
+            await prisma.user.deleteMany({
+                where: {
+                    OR: [
+                        { email: { startsWith: PREFIX } },
+                        { email: { startsWith: "E2E_" } },
+                        { email: { contains: "test@example.com" } }
+                    ]
+                }
+            });
             await prisma.flat.deleteMany({ where: { flatNumber: { startsWith: PREFIX } } });
             await prisma.flat.deleteMany({ where: { building: { buildingCode: { in: ["E2EAUSR_B1", "E2EAUSR_B2"] } } } });
             await prisma.building.deleteMany({ where: { name: { startsWith: PREFIX } } });

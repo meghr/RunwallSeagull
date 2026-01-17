@@ -1,23 +1,41 @@
 
 import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import { Pool } from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
+import * as dotenv from 'dotenv';
+import path from 'path';
 
-async function checkNotices() {
-    const notices = await prisma.notice.findMany({
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
+dotenv.config();
+
+const connectionString = process.env.DATABASE_URL;
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
+
+async function checkBuildings() {
+    const buildings = await prisma.building.findMany({
         select: {
-            title: true,
-            noticeType: true,
-            published: true,
-            visibility: true
+            id: true,
+            name: true,
+            buildingCode: true
         }
     });
-    console.log('Total notices:', notices.length);
-    console.log('Notices:', JSON.stringify(notices, null, 2));
+    console.log('Total buildings:', buildings.length);
+    console.log('Buildings:', JSON.stringify(buildings, null, 2));
 
-    const urgentNotices = notices.filter(n => n.noticeType === 'URGENT');
-    console.log('Urgent notices:', urgentNotices.length);
+    const users = await prisma.user.findMany({
+        select: {
+            id: true,
+            email: true,
+            name: true,
+            role: true
+        }
+    });
+    console.log('Total users:', users.length);
+    console.log('Users:', JSON.stringify(users, null, 2));
 }
 
-checkNotices()
+checkBuildings()
     .catch(e => console.error(e))
     .finally(async () => await prisma.$disconnect());
