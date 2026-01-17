@@ -30,6 +30,7 @@ export async function getBuildingsForDirectory() {
                             where: {
                                 status: "APPROVED",
                                 role: { in: ["OWNER", "TENANT"] },
+                                isProfilePublic: true,
                             },
                         },
                     },
@@ -63,6 +64,7 @@ export async function getNeighbors(filters: NeighborFilters = {}) {
         const where: any = {
             status: "APPROVED",
             role: { in: ["OWNER", "TENANT"] },
+            isProfilePublic: true,
         };
 
         // Filter by building

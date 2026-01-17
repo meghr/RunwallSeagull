@@ -8,6 +8,7 @@ export const ProfileSchema = z.object({
         .optional()
         .or(z.literal("")),
     profileImageUrl: z.string().optional(),
+    isProfilePublic: z.boolean().optional(),
 });
 
 export type ProfileInput = z.infer<typeof ProfileSchema>;

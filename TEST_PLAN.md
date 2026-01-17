@@ -296,7 +296,7 @@ async function cleanupTestData() {
 | APPR-004 | Non-admin access | Regular user logged in | Navigate to /admin | Redirect to dashboard | None |
 | APPR-005 | Approval with reason | Pending user exists | Approve with note | User approved, log created | Reset status |
 
-#### 4.2.4 Profile Management Tests
+#### 4.2.4 Profile Management Tests 
 
 | Test ID | Scenario | Preconditions | Steps | Expected Result | Cleanup |
 |---------|----------|---------------|-------|-----------------|---------|

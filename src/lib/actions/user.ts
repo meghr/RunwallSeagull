@@ -50,6 +50,7 @@ export async function updateProfile(data: ProfileInput) {
                 name: validated.data.name,
                 phoneNumber: validated.data.phoneNumber || null,
                 profileImageUrl: validated.data.profileImageUrl,
+                isProfilePublic: validated.data.isProfilePublic,
             },
         });
 

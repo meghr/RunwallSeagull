@@ -14,6 +14,7 @@ interface ProfileFormProps {
         email: string;
         phoneNumber: string | null;
         profileImageUrl: string | null;
+        isProfilePublic: boolean;
         role: string;
         building: { name: string; buildingCode: string } | null;
         flat: { flatNumber: string } | null;
@@ -29,6 +30,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
         name: user.name,
         phoneNumber: user.phoneNumber || "",
         profileImageUrl: user.profileImageUrl || "",
+        isProfilePublic: user.isProfilePublic,
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -107,6 +109,28 @@ export function ProfileForm({ user }: ProfileFormProps) {
                     <div className="px-3 py-2 rounded-md border border-white/5 bg-slate-900/20 text-slate-400 text-sm">
                         {user.role}
                     </div>
+                </div>
+            </div>
+
+            {/* Privacy Settings */}
+            <div className="space-y-4 pt-4 border-t border-white/10">
+                <h3 className="font-medium text-white flex items-center gap-2">
+                    Privacy Settings
+                </h3>
+                <div className="flex items-center justify-between p-4 rounded-lg bg-white/5 border border-white/10">
+                    <div>
+                        <p className="font-medium text-slate-200">Show profile in Neighbor Directory</p>
+                        <p className="text-sm text-slate-500 text-balance">When enabled, other residents can find you and see your contact details in the society directory.</p>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                        <input
+                            type="checkbox"
+                            checked={formData.isProfilePublic}
+                            onChange={(e) => setFormData(p => ({ ...p, isProfilePublic: e.target.checked }))}
+                            className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-sky-500"></div>
+                    </label>
                 </div>
             </div>
 

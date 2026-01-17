@@ -150,6 +150,7 @@ model User {
   updatedAt        DateTime    @updatedAt @map("updated_at")
   approvedBy       String?     @map("approved_by")
   approvedAt       DateTime?   @map("approved_at")
+  isProfilePublic  Boolean     @default(true) @map("is_profile_public")
 
   // Relations
   building                Building?             @relation("UserBuilding", fields: [buildingId], references: [id])

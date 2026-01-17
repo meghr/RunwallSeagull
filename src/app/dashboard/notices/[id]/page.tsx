@@ -17,7 +17,7 @@ const noticeTypeColors: Record<string, string> = {
 export default async function NoticeDetailPage({
     params,
 }: {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }) {
     const session = await auth();
 
@@ -25,7 +25,8 @@ export default async function NoticeDetailPage({
         redirect("/login");
     }
 
-    const result = await getNoticeByIdForUser(params.id);
+    const { id } = await params;
+    const result = await getNoticeByIdForUser(id);
 
     if (!result.success || !result.data) {
         notFound();
