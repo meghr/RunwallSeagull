@@ -44,6 +44,7 @@
     "vitest.config.ts",
     "playwright.config.ts",
     "prisma",
-    "__tests__"
+    "__tests__",
+    "scripts"
   ]
 }
