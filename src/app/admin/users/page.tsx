@@ -8,9 +8,21 @@ export const metadata = {
     description: "Manage users, roles, and permissions",
 };
 
-export default async function AdminUsersPage() {
+export default async function AdminUsersPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+    const params = await searchParams;
+    const filters = {
+        status: params.status as any,
+        role: params.role as any,
+        buildingId: params.buildingId as any,
+        search: params.search as string,
+    };
+
     const [usersResult, buildingsResult, statsResult] = await Promise.all([
-        getAdminUsers(),
+        getAdminUsers(filters),
         getBuildingsForFilter(),
         getUserStats(),
     ]);
@@ -18,6 +30,14 @@ export default async function AdminUsersPage() {
     const users = usersResult.success && usersResult.data ? usersResult.data : [];
     const buildings = buildingsResult.success && buildingsResult.data ? buildingsResult.data : [];
     const stats = statsResult.success && statsResult.data ? statsResult.data : null;
+
+    // Initial filters for client component
+    const initialFilters = {
+        status: (params.status as any) || "ALL",
+        role: (params.role as any) || "ALL",
+        buildingId: (params.buildingId as any) || "ALL",
+        search: (params.search as string) || "",
+    };
 
     return (
         <div className="space-y-6">
@@ -94,7 +114,11 @@ export default async function AdminUsersPage() {
                     </div>
                 }
             >
-                <UserManagement users={users as any} buildings={buildings} />
+                <UserManagement
+                    users={users as any}
+                    buildings={buildings}
+                    initialFilters={initialFilters}
+                />
             </Suspense>
         </div>
     );

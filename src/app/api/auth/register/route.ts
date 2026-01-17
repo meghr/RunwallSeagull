@@ -15,7 +15,7 @@ export async function POST(req: Request) {
             );
         }
 
-        const { name, email, password, buildingId, flatId, userType, profileImageUrl } = validatedFields.data;
+        const { name, email, phoneNumber, password, buildingId, flatNumber, userType, profileImageUrl } = validatedFields.data;
 
         // Check if user exists
         const existingUser = await prisma.user.findUnique({
@@ -29,13 +29,25 @@ export async function POST(req: Request) {
             );
         }
 
-        // Verify flat exists
-        const flat = await prisma.flat.findUnique({
-            where: { id: flatId },
+        // Find or create flat
+        let flat = await prisma.flat.findFirst({
+            where: {
+                buildingId,
+                flatNumber,
+            },
         });
 
         if (!flat) {
-            return NextResponse.json({ error: "Invalid flat selected" }, { status: 400 });
+            // Create flat if it doesn't exist
+            // We assume floor is the first two digits for 4-digit numbers (e.g. 1101 -> Floor 11)
+            const floorNumber = parseInt(flatNumber.substring(0, 2));
+            flat = await prisma.flat.create({
+                data: {
+                    buildingId,
+                    flatNumber,
+                    floorNumber,
+                },
+            });
         }
 
         // Hash password
@@ -46,9 +58,10 @@ export async function POST(req: Request) {
             data: {
                 name,
                 email,
+                phoneNumber,
                 passwordHash: hashedPassword,
                 buildingId,
-                flatId,
+                flatId: flat.id,
                 userType,
                 profileImageUrl,
                 role: "PUBLIC",

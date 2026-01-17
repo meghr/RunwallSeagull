@@ -574,3 +574,40 @@ export async function exportUsersToCSV(filters?: UserFilters) {
         return { success: false, error: "Failed to export users" };
     }
 }
+
+/**
+ * Delete a user
+ */
+export async function deleteUser(userId: string) {
+    const authCheck = await requireAdmin();
+    if (!authCheck.authorized) {
+        return { success: false, error: authCheck.error };
+    }
+
+    try {
+        // Prevent deleting yourself
+        if (userId === authCheck.userId) {
+            return { success: false, error: "You cannot delete your own account" };
+        }
+
+        await prisma.user.delete({
+            where: { id: userId },
+        });
+
+        revalidatePath("/admin");
+        revalidatePath("/admin/users");
+        return { success: true, message: "User deleted successfully" };
+    } catch (error: any) {
+        console.error("Error deleting user:", error);
+
+        // Handle specific prisma errors
+        if (error.code === 'P2003') {
+            return {
+                success: false,
+                error: "Cannot delete user. They have associated data (complaints, notices, etc.) that must be removed first."
+            };
+        }
+
+        return { success: false, error: "Failed to delete user" };
+    }
+}

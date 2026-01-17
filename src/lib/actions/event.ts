@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/db";
+import { revalidatePath } from "next/cache";
 
 export async function getUpcomingEvents(limit: number = 6) {
     try {
@@ -9,7 +10,7 @@ export async function getUpcomingEvents(limit: number = 6) {
         const events = await prisma.event.findMany({
             where: {
                 published: true,
-                startDate: {
+                endDate: {
                     gte: now,
                 },
             },
@@ -129,9 +130,9 @@ export async function getAllEventsForUser(params: {
 
         // Apply date filter
         if (filter === "UPCOMING") {
-            where.startDate = { gte: now };
+            where.endDate = { gte: now };
         } else if (filter === "PAST") {
-            where.startDate = { lt: now };
+            where.endDate = { lt: now };
         }
 
         // Add event type filter
@@ -358,6 +359,10 @@ export async function registerForEvent(data: {
             },
         });
 
+        revalidatePath("/dashboard");
+        revalidatePath("/dashboard/events");
+        revalidatePath("/dashboard/events/my-registrations");
+
         return {
             success: true,
             data: registration,
@@ -406,6 +411,10 @@ export async function cancelEventRegistration(registrationId: string) {
             },
         });
 
+        revalidatePath("/dashboard");
+        revalidatePath("/dashboard/events");
+        revalidatePath("/dashboard/events/my-registrations");
+
         return {
             success: true,
             message: `Successfully cancelled registration for ${registration.event.title}`,
@@ -440,9 +449,9 @@ export async function getMyEventRegistrations(params: {
         };
 
         if (filter === "UPCOMING") {
-            where.event = { startDate: { gte: now } };
+            where.event = { endDate: { gte: now } };
         } else if (filter === "PAST") {
-            where.event = { startDate: { lt: now } };
+            where.event = { endDate: { lt: now } };
         }
 
         // Get total count

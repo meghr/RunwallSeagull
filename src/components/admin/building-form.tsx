@@ -14,6 +14,7 @@ interface BuildingFormProps {
         buildingCode: string;
         totalFloors: number | null;
         description: string | null;
+        isActiveForRegistration: boolean;
     };
     onSuccess?: () => void;
     onCancel?: () => void;
@@ -29,6 +30,7 @@ export function BuildingForm({ building, onSuccess, onCancel }: BuildingFormProp
         buildingCode: building?.buildingCode || "",
         totalFloors: building?.totalFloors?.toString() || "",
         description: building?.description || "",
+        isActiveForRegistration: building?.isActiveForRegistration ?? true,
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -41,6 +43,7 @@ export function BuildingForm({ building, onSuccess, onCancel }: BuildingFormProp
                 buildingCode: formData.buildingCode,
                 totalFloors: formData.totalFloors ? parseInt(formData.totalFloors) : null,
                 description: formData.description || null,
+                isActiveForRegistration: formData.isActiveForRegistration,
             };
 
             const res = building
@@ -75,13 +78,11 @@ export function BuildingForm({ building, onSuccess, onCancel }: BuildingFormProp
                     <Label className="text-slate-300">Building Code *</Label>
                     <Input
                         value={formData.buildingCode}
-                        onChange={(e) => setFormData(p => ({ ...p, buildingCode: e.target.value }))}
+                        onChange={(e) => setFormData(p => ({ ...p, buildingCode: e.target.value.toUpperCase() }))}
                         placeholder="e.g., A, B, C1"
                         required
-                        disabled={!!building}
-                        className="bg-slate-900/50 border-white/10 text-white disabled:opacity-50"
+                        className="bg-slate-900/50 border-white/10 text-white"
                     />
-                    {building && <p className="text-xs text-slate-500">Building code cannot be changed</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -109,6 +110,27 @@ export function BuildingForm({ building, onSuccess, onCancel }: BuildingFormProp
                     className="w-full rounded-md border border-white/10 bg-slate-900/50 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50"
                 />
                 <p className="text-xs text-slate-500">{formData.description.length}/1000 characters</p>
+            </div>
+
+            <div className="flex items-center space-x-2 bg-slate-900/50 border border-white/10 p-4 rounded-lg">
+                <input
+                    type="checkbox"
+                    id="isActiveForRegistration"
+                    checked={formData.isActiveForRegistration}
+                    onChange={(e) => setFormData(p => ({ ...p, isActiveForRegistration: e.target.checked }))}
+                    className="h-4 w-4 rounded border-white/10 bg-slate-800 text-sky-500 focus:ring-sky-500"
+                />
+                <div className="grid gap-1.5 leading-none">
+                    <Label
+                        htmlFor="isActiveForRegistration"
+                        className="text-sm font-medium leading-none text-white peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                        Active for Registration
+                    </Label>
+                    <p className="text-xs text-slate-400">
+                        When enabled, this building will appear in the registration dropdown for new users.
+                    </p>
+                </div>
             </div>
 
             {msg.text && (

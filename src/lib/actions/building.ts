@@ -45,6 +45,7 @@ export async function getAllBuildingsWithStats() {
                 buildingCode: building.buildingCode,
                 totalFloors: building.totalFloors,
                 description: building.description,
+                isActiveForRegistration: building.isActiveForRegistration,
                 createdAt: building.createdAt,
                 totalFlats,
                 occupiedFlats,
@@ -107,6 +108,7 @@ export async function createBuilding(data: CreateBuildingInput) {
                 buildingCode: validated.data.buildingCode,
                 totalFloors: validated.data.totalFloors ?? null,
                 description: validated.data.description ?? null,
+                isActiveForRegistration: validated.data.isActiveForRegistration ?? true,
             },
         });
 
@@ -119,7 +121,7 @@ export async function createBuilding(data: CreateBuildingInput) {
             return { success: false, error: "Building code already exists" };
         }
 
-        return { success: false, error: "Failed to create building" };
+        return { success: false, error: error.message || "Failed to create building" };
     }
 }
 
@@ -139,6 +141,7 @@ export async function updateBuilding(buildingId: string, data: UpdateBuildingInp
                 ...(validated.data.buildingCode && { buildingCode: validated.data.buildingCode }),
                 ...(validated.data.totalFloors !== undefined && { totalFloors: validated.data.totalFloors }),
                 ...(validated.data.description !== undefined && { description: validated.data.description }),
+                ...(validated.data.isActiveForRegistration !== undefined && { isActiveForRegistration: validated.data.isActiveForRegistration }),
             },
         });
 
@@ -156,7 +159,7 @@ export async function updateBuilding(buildingId: string, data: UpdateBuildingInp
             return { success: false, error: "Building not found" };
         }
 
-        return { success: false, error: "Failed to update building" };
+        return { success: false, error: error.message || "Failed to update building" };
     }
 }
 

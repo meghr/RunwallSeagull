@@ -5,7 +5,9 @@ import { prisma } from "@/lib/db";
 export async function getBuildings() {
     try {
         const buildings = await prisma.building.findMany({
+            where: { isActiveForRegistration: true },
             select: { id: true, name: true, buildingCode: true },
+            orderBy: { buildingCode: "asc" },
         });
         return buildings;
     } catch (error) {

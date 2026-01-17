@@ -45,7 +45,7 @@ export async function getDashboardStats() {
     // Count upcoming events
     const upcomingEventsCount = await prisma.event.count({
       where: {
-        startDate: {
+        endDate: {
           gt: new Date(),
         },
         published: true,
@@ -57,7 +57,7 @@ export async function getDashboardStats() {
       where: {
         userId: userId,
         event: {
-          startDate: {
+          endDate: {
             gt: new Date(),
           },
         },
@@ -132,7 +132,7 @@ export async function getMyEventRegistrations(limit: number = 5) {
       where: {
         userId: session.user.id,
         event: {
-          startDate: {
+          endDate: {
             gt: new Date(),
           },
         },

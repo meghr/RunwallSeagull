@@ -6,7 +6,7 @@ import {
     UserPlus,
     BellPlus,
     CalendarPlus,
-    ShieldCheck
+    Building2
 } from "lucide-react";
 
 export function QuickActions() {
@@ -17,6 +17,13 @@ export function QuickActions() {
             icon: UserPlus,
             color: "text-amber-400",
             description: "Approve pending registrations"
+        },
+        {
+            label: "Manage Buildings",
+            href: "/admin/buildings",
+            icon: Building2,
+            color: "text-sky-400",
+            description: "Configure registration visibility"
         },
         {
             label: "Create Notice",
@@ -31,13 +38,6 @@ export function QuickActions() {
             icon: CalendarPlus,
             color: "text-pink-400",
             description: "Schedule a community event"
-        },
-        {
-            label: "View Logs",
-            href: "/admin/logs",
-            icon: ShieldCheck,
-            color: "text-emerald-400",
-            description: "Check system security logs"
         }
     ];
 

@@ -35,14 +35,14 @@ export default defineConfig({
         // Base URL for navigation
         baseURL: process.env.TEST_BASE_URL || "http://localhost:3000",
 
-        // Capture trace on first retry
-        trace: "on-first-retry",
+        // Capture trace
+        trace: "on",
 
         // Screenshot on failure
         screenshot: "only-on-failure",
 
-        // Video on failure
-        video: "on-first-retry",
+        // Video
+        video: "on",
 
         // Action timeout
         actionTimeout: 15000,

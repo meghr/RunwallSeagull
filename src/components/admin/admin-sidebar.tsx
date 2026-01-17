@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import {
     LayoutDashboard,
     Users,
+    Building2,
     Bell,
     Calendar,
     ShoppingBag,
@@ -18,6 +19,7 @@ import { signOut } from "next-auth/react";
 
 const navigation = [
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+    { name: "Buildings", href: "/admin/buildings", icon: Building2 },
     { name: "Users", href: "/admin/users", icon: Users },
     { name: "Notices", href: "/admin/notices", icon: Bell },
     { name: "Events", href: "/admin/events", icon: Calendar },

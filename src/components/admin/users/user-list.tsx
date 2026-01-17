@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { UserRole, UserStatus } from "@prisma/client";
-import { updateUserStatus, updateUserRole, exportUsersToCSV, UserFilters } from "@/lib/actions/admin-user";
+import { updateUserStatus, updateUserRole, deleteUser, exportUsersToCSV, UserFilters } from "@/lib/actions/admin-user";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -32,6 +32,7 @@ import {
     Users,
     Filter,
     X,
+    Trash2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -66,16 +67,22 @@ interface UserListProps {
     users: UserData[];
     buildings: Building[];
     onViewUser: (userId: string) => void;
+    initialFilters?: {
+        search?: string;
+        role?: string;
+        status?: string;
+        buildingId?: string;
+    };
 }
 
-export function UserList({ users, buildings, onViewUser }: UserListProps) {
+export function UserList({ users, buildings, onViewUser, initialFilters }: UserListProps) {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
-    const [search, setSearch] = useState("");
-    const [roleFilter, setRoleFilter] = useState<UserRole | "ALL">("ALL");
-    const [statusFilter, setStatusFilter] = useState<UserStatus | "ALL">("ALL");
-    const [buildingFilter, setBuildingFilter] = useState<string>("ALL");
-    const [showFilters, setShowFilters] = useState(false);
+    const [search, setSearch] = useState(initialFilters?.search || "");
+    const [roleFilter, setRoleFilter] = useState<UserRole | "ALL">((initialFilters?.role as UserRole) || "ALL");
+    const [statusFilter, setStatusFilter] = useState<UserStatus | "ALL">((initialFilters?.status as UserStatus) || "ALL");
+    const [buildingFilter, setBuildingFilter] = useState<string>(initialFilters?.buildingId || "ALL");
+    const [showFilters, setShowFilters] = useState(!!initialFilters?.status || !!initialFilters?.role || !!initialFilters?.buildingId);
 
     // Client-side filtering
     const filteredUsers = users.filter((user) => {
@@ -86,7 +93,7 @@ export function UserList({ users, buildings, onViewUser }: UserListProps) {
                 user.name.toLowerCase().includes(searchLower) ||
                 user.email.toLowerCase().includes(searchLower) ||
                 user.phoneNumber?.includes(search) ||
-                user.flat?.flatNumber.toLowerCase().includes(searchLower);
+                user.flat?.flatNumber?.toLowerCase().includes(searchLower);
             if (!matchesSearch) return false;
         }
 
@@ -125,6 +132,21 @@ export function UserList({ users, buildings, onViewUser }: UserListProps) {
                 router.refresh();
             } else {
                 alert(result.error || "Failed to update role");
+            }
+        });
+    };
+
+    const handleDeleteUser = async (userId: string, userName: string) => {
+        if (!confirm(`Are you sure you want to PERMANENTLY delete user "${userName}"? This action cannot be undone and will remove all their data.`)) {
+            return;
+        }
+
+        startTransition(async () => {
+            const result = await deleteUser(userId);
+            if (result.success) {
+                router.refresh();
+            } else {
+                alert(result.error || "Failed to delete user");
             }
         });
     };
@@ -524,6 +546,16 @@ export function UserList({ users, buildings, onViewUser }: UserListProps) {
                                                         >
                                                             <UserCog className="h-4 w-4" />
                                                             View Details
+                                                        </button>
+
+                                                        {/* Delete User */}
+                                                        <button
+                                                            onClick={() => handleDeleteUser(user.id, user.name)}
+                                                            disabled={isPending}
+                                                            className="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-red-500/10 flex items-center gap-2"
+                                                        >
+                                                            <Trash2 className="h-4 w-4" />
+                                                            Delete User
                                                         </button>
                                                     </div>
                                                 </div>

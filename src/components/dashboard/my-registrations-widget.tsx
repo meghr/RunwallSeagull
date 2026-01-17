@@ -61,7 +61,7 @@ export function MyRegistrationsWidget({ registrations }: MyRegistrationsWidgetPr
                     My Event Registrations
                 </h2>
                 <Link
-                    href="/dashboard/my-events"
+                    href="/dashboard/events/my-registrations"
                     className="text-sm text-sky-400 hover:text-sky-300 transition-colors flex items-center gap-1"
                 >
                     View All

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { format, formatDistanceToNow } from "date-fns";
@@ -55,7 +55,8 @@ function getRegistrationStatus(event: any) {
     return { status: "OPEN", label: "Registration Open", color: "bg-emerald-500/10 text-emerald-400" };
 }
 
-export default function EventDetailPage({ params }: { params: { id: string } }) {
+export default function EventDetailPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = React.use(params);
     const router = useRouter();
     const [event, setEvent] = useState<any>(null);
     const [loading, setLoading] = useState(true);
@@ -64,7 +65,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
 
     const fetchEvent = async () => {
         setLoading(true);
-        const result = await getEventForRegistration(params.id);
+        const result = await getEventForRegistration(id);
         if (result.success && result.data) {
             setEvent(result.data);
         }
@@ -73,7 +74,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
 
     useEffect(() => {
         fetchEvent();
-    }, [params.id]);
+    }, [id]);
 
     const handleCancelRegistration = async () => {
         if (!event?.userRegistration?.id) return;
@@ -111,8 +112,14 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
     }
 
     const regStatus = getRegistrationStatus(event);
-    const isUpcoming = new Date(event.startDate) > new Date();
-    const daysUntil = isUpcoming ? formatDistanceToNow(new Date(event.startDate), { addSuffix: true }) : null;
+    const now = new Date();
+    const startDate = new Date(event.startDate);
+    const endDate = new Date(event.endDate);
+    const isUpcoming = startDate > now;
+    const isPast = endDate < now;
+    const isOngoing = now >= startDate && now <= endDate;
+
+    const daysUntil = isUpcoming ? formatDistanceToNow(startDate, { addSuffix: true }) : null;
     const spotsRemaining = event.maxParticipants ? event.maxParticipants - event._count.registrations : null;
 
     return (
@@ -169,12 +176,19 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                             </div>
                         </div>
 
-                        {/* Registration Status */}
-                        {event.registrationRequired && (
-                            <Badge variant="outline" className={`${regStatus.color} text-base py-1 px-3`}>
-                                {regStatus.label}
-                            </Badge>
-                        )}
+                        {/* Event Status Badges */}
+                        <div className="flex flex-wrap gap-2">
+                            {event.registrationRequired && (
+                                <Badge variant="outline" className={`${regStatus.color} text-sm py-1 px-3`}>
+                                    {regStatus.label}
+                                </Badge>
+                            )}
+                            {isOngoing && (
+                                <Badge className="bg-sky-500/20 text-sky-400 border-sky-500/30 text-sm py-1 px-3">
+                                    Ongoing
+                                </Badge>
+                            )}
+                        </div>
 
                         {/* Countdown */}
                         {isUpcoming && daysUntil && (
@@ -195,10 +209,13 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                                 <div>
                                     <p className="text-sm text-slate-400">Date & Time</p>
                                     <p className="text-white font-medium">
-                                        {format(new Date(event.startDate), "EEE, MMM d, yyyy")}
+                                        {format(startDate, "EEE, MMM d, yyyy")}
+                                        {format(startDate, "yyyyMMdd") !== format(endDate, "yyyyMMdd") && (
+                                            <> - {format(endDate, "EEE, MMM d, yyyy")}</>
+                                        )}
                                     </p>
                                     <p className="text-sm text-slate-400">
-                                        {format(new Date(event.startDate), "h:mm a")} - {format(new Date(event.endDate), "h:mm a")}
+                                        {format(startDate, "h:mm a")} - {format(endDate, "h:mm a")}
                                     </p>
                                 </div>
                             </div>
@@ -297,7 +314,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
 
                     {/* Action Buttons */}
                     <div className="flex gap-4 pt-6 border-t border-white/10">
-                        {isUpcoming && event.registrationRequired && regStatus.status === "OPEN" && !event.isUserRegistered && (
+                        {!isPast && event.registrationRequired && regStatus.status === "OPEN" && !event.isUserRegistered && (
                             <Button
                                 className="flex-1 bg-sky-500 hover:bg-sky-600 text-white py-6 text-lg"
                                 onClick={() => setIsModalOpen(true)}
@@ -306,7 +323,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                             </Button>
                         )}
 
-                        {event.isUserRegistered && isUpcoming && (
+                        {event.isUserRegistered && !isPast && (
                             <>
                                 <div className="flex-1 p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-center">
                                     <CheckCircle2 className="h-6 w-6 text-emerald-400 mx-auto mb-2" />
@@ -331,7 +348,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                             </>
                         )}
 
-                        {!isUpcoming && (
+                        {isPast && (
                             <div className="flex-1 p-4 rounded-lg bg-slate-500/10 border border-slate-500/20 text-center">
                                 <p className="text-slate-400">This event has already ended</p>
                             </div>

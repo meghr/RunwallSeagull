@@ -183,6 +183,7 @@ model Building {
   buildingCode String  @unique @map("building_code") @db.VarChar(10)
   totalFloors Int?     @map("total_floors")
   description String?  @db.Text
+  isActiveForRegistration Boolean @default(true) @map("is_active_for_registration")
   createdAt   DateTime @default(now()) @map("created_at")
 
   // Relations

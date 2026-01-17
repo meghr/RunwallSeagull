@@ -15,6 +15,7 @@ interface BuildingCardProps {
         occupiedFlats: number;
         vacantFlats: number;
         occupancyRate: number;
+        isActiveForRegistration: boolean;
     };
     onEdit: (id: string) => void;
     onDelete: (id: string) => void;
@@ -36,9 +37,20 @@ export function BuildingCard({ building, onEdit, onDelete }: BuildingCardProps) 
                             <p className="text-sm text-slate-400">Code: {building.buildingCode}</p>
                         </div>
                     </div>
-                    <Badge variant="secondary" className="ml-2">
-                        {building.totalFloors ? `${building.totalFloors} Floors` : "N/A"}
-                    </Badge>
+                    <div className="flex flex-col items-end gap-1">
+                        <Badge variant="secondary">
+                            {building.totalFloors ? `${building.totalFloors} Floors` : "N/A"}
+                        </Badge>
+                        <Badge
+                            variant="outline"
+                            className={building.isActiveForRegistration
+                                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                                : "bg-slate-500/10 text-slate-400 border-slate-500/20"
+                            }
+                        >
+                            {building.isActiveForRegistration ? "Registration Active" : "Registration Hidden"}
+                        </Badge>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-3">

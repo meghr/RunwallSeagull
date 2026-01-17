@@ -78,7 +78,7 @@ export async function getAdminEvents(filters?: {
                     where.published = false;
                     break;
                 case "UPCOMING":
-                    where.startDate = { gte: now };
+                    where.endDate = { gte: now };
                     break;
                 case "PAST":
                     where.endDate = { lt: now };

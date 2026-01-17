@@ -25,6 +25,11 @@ export default async function DashboardPage() {
         redirect("/login");
     }
 
+    // Redirect Admin to Admin Portal
+    if (session.user.role === "ADMIN") {
+        redirect("/admin");
+    }
+
     // Fetch all dashboard data
     const [statsResult, noticesResult, registrationsResult] = await Promise.all([
         getDashboardStats(),

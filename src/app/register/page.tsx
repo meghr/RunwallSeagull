@@ -4,7 +4,7 @@ import { useState, useEffect, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getBuildings, getFlats } from "@/lib/actions/master-data";
+import { getBuildings } from "@/lib/actions/master-data";
 import { FileUpload } from "@/components/ui/file-upload";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,11 +17,6 @@ interface Building {
     buildingCode: string;
 }
 
-interface Flat {
-    id: string;
-    flatNumber: string;
-}
-
 export default function RegisterPage() {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
@@ -31,17 +26,17 @@ export default function RegisterPage() {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
+        phoneNumber: "",
         password: "",
         confirmPassword: "",
         userType: "OWNER", // Default
         buildingId: "",
-        flatId: "",
+        flatNumber: "",
         profileImageUrl: "",
     });
 
     // Data State
     const [buildings, setBuildings] = useState<Building[]>([]);
-    const [flats, setFlats] = useState<Flat[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
@@ -54,21 +49,6 @@ export default function RegisterPage() {
         };
         fetchBuildings();
     }, []);
-
-    // Fetch Flats when Building Changes
-    useEffect(() => {
-        if (!formData.buildingId) {
-            setFlats([]);
-            return;
-        }
-        const fetchFlats = async () => {
-            setLoading(true);
-            const data = await getFlats(formData.buildingId);
-            setFlats(data);
-            setLoading(false);
-        };
-        fetchFlats();
-    }, [formData.buildingId]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -103,8 +83,8 @@ export default function RegisterPage() {
                     setError(data.error || "Something went wrong");
                 } else {
                     setSuccess(data.message);
-                    // Optional: Redirect after delay
-                    setTimeout(() => router.push("/login"), 3000);
+                    // Redirect to pending approval page
+                    setTimeout(() => router.push("/pending-approval"), 2000);
                 }
             } catch (err) {
                 setError("Network error occurred");
@@ -190,6 +170,22 @@ export default function RegisterPage() {
                                 />
                             </div>
 
+                            <div className="space-y-2">
+                                <Label className="text-slate-200">Mobile Number</Label>
+                                <Input
+                                    name="phoneNumber"
+                                    type="tel"
+                                    placeholder="Enter 10 digit number"
+                                    value={formData.phoneNumber}
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                                        setFormData(prev => ({ ...prev, phoneNumber: value }));
+                                    }}
+                                    required
+                                    className="bg-white/5 border-white/10 text-white"
+                                />
+                            </div>
+
                             {/* Property Info */}
                             <div className="space-y-2">
                                 <Label className="text-slate-200">Building</Label>
@@ -200,10 +196,10 @@ export default function RegisterPage() {
                                     required
                                     className="flex h-10 w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
                                 >
-                                    <option value="" className="bg-slate-800 text-slate-400">Select Building</option>
+                                    <option value="" className="bg-slate-800 text-slate-400">Select Building Code</option>
                                     {buildings.map((b) => (
                                         <option key={b.id} value={b.id} className="bg-slate-800">
-                                            {b.name}
+                                            {b.buildingCode}
                                         </option>
                                     ))}
                                 </select>
@@ -211,23 +207,19 @@ export default function RegisterPage() {
 
                             <div className="space-y-2">
                                 <Label className="text-slate-200">Flat Number</Label>
-                                <select
-                                    name="flatId"
-                                    value={formData.flatId}
-                                    onChange={handleChange}
+                                <Input
+                                    name="flatNumber"
+                                    placeholder="e.g. 1101"
+                                    value={formData.flatNumber}
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, '').slice(0, 4);
+                                        setFormData(prev => ({ ...prev, flatNumber: value }));
+                                    }}
                                     required
-                                    disabled={!formData.buildingId || loading}
-                                    className="flex h-10 w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-                                >
-                                    <option value="" className="bg-slate-800 text-slate-400">
-                                        {loading ? "Loading..." : "Select Flat"}
-                                    </option>
-                                    {flats.map((f) => (
-                                        <option key={f.id} value={f.id} className="bg-slate-800">
-                                            {f.flatNumber}
-                                        </option>
-                                    ))}
-                                </select>
+                                    disabled={!formData.buildingId}
+                                    className="bg-white/5 border-white/10 text-white disabled:opacity-50"
+                                />
+                                <p className="text-[10px] text-slate-500">Must be a 4-digit number</p>
                             </div>
                         </div>
 
