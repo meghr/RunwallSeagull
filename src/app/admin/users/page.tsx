@@ -117,6 +117,7 @@ export default async function AdminUsersPage({
                 <UserManagement
                     users={users as any}
                     buildings={buildings}
+                    totalCount={stats?.totalUsers || 0}
                     initialFilters={initialFilters}
                 />
             </Suspense>

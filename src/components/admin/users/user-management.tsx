@@ -33,6 +33,7 @@ interface Building {
 interface UserManagementProps {
     users: UserData[];
     buildings: Building[];
+    totalCount: number;
     initialFilters?: {
         search?: string;
         role?: string;
@@ -41,7 +42,7 @@ interface UserManagementProps {
     };
 }
 
-export function UserManagement({ users, buildings, initialFilters }: UserManagementProps) {
+export function UserManagement({ users, buildings, totalCount, initialFilters }: UserManagementProps) {
     const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
     return (
@@ -49,6 +50,7 @@ export function UserManagement({ users, buildings, initialFilters }: UserManagem
             <UserList
                 users={users as any}
                 buildings={buildings}
+                totalCount={totalCount}
                 initialFilters={initialFilters}
                 onViewUser={(userId) => setSelectedUserId(userId)}
             />

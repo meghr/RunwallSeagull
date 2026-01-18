@@ -42,7 +42,7 @@ export async function getAdminStats() {
             totalEvents,
             openComplaints
         ] = await Promise.all([
-            prisma.user.count({ where: { status: "APPROVED" } }),
+            prisma.user.count(),
             prisma.user.count({ where: { status: "PENDING" } }),
             prisma.marketplaceAd.count({ where: { status: "ACTIVE" } }),
             prisma.notice.count(),
@@ -126,7 +126,7 @@ export async function getRecentActivity() {
             prisma.user.findMany({
                 take: 5,
                 orderBy: { createdAt: "desc" },
-                select: { id: true, name: true, profileImageUrl: true, createdAt: true } // Note: using image/profileImageUrl depending on schema
+                select: { id: true, name: true, profileImageUrl: true, createdAt: true, status: true }
             }),
             prisma.notice.findMany({
                 take: 5,
@@ -144,14 +144,17 @@ export async function getRecentActivity() {
 
         // Map Users
         latestUsers.forEach(user => {
+            const isApproved = user.status === "APPROVED";
             activities.push({
                 id: user.id,
                 type: "USER",
-                action: "New Registration",
-                description: `${user.name} joined the portal`,
+                action: isApproved ? "User Registered (Approved)" : "New Registration",
+                description: isApproved
+                    ? `${user.name} joined and was approved`
+                    : `${user.name} joined and is pending approval`,
                 timestamp: user.createdAt,
                 actorName: user.name,
-                actorImage: user.profileImageUrl // Fixed: accessing correct property
+                actorImage: user.profileImageUrl
             });
         });
 

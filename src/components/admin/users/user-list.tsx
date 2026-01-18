@@ -67,6 +67,7 @@ interface UserListProps {
     users: UserData[];
     buildings: Building[];
     onViewUser: (userId: string) => void;
+    totalCount: number;
     initialFilters?: {
         search?: string;
         role?: string;
@@ -75,7 +76,7 @@ interface UserListProps {
     };
 }
 
-export function UserList({ users, buildings, onViewUser, initialFilters }: UserListProps) {
+export function UserList({ users, buildings, onViewUser, totalCount, initialFilters }: UserListProps) {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const [search, setSearch] = useState(initialFilters?.search || "");
@@ -85,6 +86,19 @@ export function UserList({ users, buildings, onViewUser, initialFilters }: UserL
     const [showFilters, setShowFilters] = useState(!!initialFilters?.status || !!initialFilters?.role || !!initialFilters?.buildingId);
     const [openMenuId, setOpenMenuId] = useState<string | null>(null);
     const menuRef = useRef<HTMLDivElement>(null);
+
+    // Sync state with initialFilters from props when they change
+    useEffect(() => {
+        if (initialFilters) {
+            setSearch(initialFilters.search || "");
+            setRoleFilter((initialFilters.role as UserRole) || "ALL");
+            setStatusFilter((initialFilters.status as UserStatus) || "ALL");
+            setBuildingFilter(initialFilters.buildingId || "ALL");
+            if (initialFilters.status || initialFilters.role || initialFilters.buildingId) {
+                setShowFilters(true);
+            }
+        }
+    }, [initialFilters]);
 
     // Close menu when clicking outside
     useEffect(() => {
@@ -369,7 +383,7 @@ export function UserList({ users, buildings, onViewUser, initialFilters }: UserL
 
             {/* Results Count */}
             <div className="text-sm text-slate-400">
-                Showing {filteredUsers.length} of {users.length} users
+                Showing {filteredUsers.length} of {totalCount} users
             </div>
 
             {/* Users Table */}
