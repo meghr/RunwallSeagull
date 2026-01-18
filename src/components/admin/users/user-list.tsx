@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { UserRole, UserStatus } from "@prisma/client";
 import { updateUserStatus, updateUserRole, deleteUser, exportUsersToCSV, UserFilters } from "@/lib/actions/admin-user";
@@ -83,6 +83,21 @@ export function UserList({ users, buildings, onViewUser, initialFilters }: UserL
     const [statusFilter, setStatusFilter] = useState<UserStatus | "ALL">((initialFilters?.status as UserStatus) || "ALL");
     const [buildingFilter, setBuildingFilter] = useState<string>(initialFilters?.buildingId || "ALL");
     const [showFilters, setShowFilters] = useState(!!initialFilters?.status || !!initialFilters?.role || !!initialFilters?.buildingId);
+    const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setOpenMenuId(null);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     // Client-side filtering
     const filteredUsers = users.filter((user) => {
@@ -470,19 +485,32 @@ export function UserList({ users, buildings, onViewUser, initialFilters }: UserL
                                                 </Button>
 
                                                 {/* More Actions Dropdown */}
-                                                <div className="relative group/menu">
+                                                <div className="relative" ref={openMenuId === user.id ? menuRef : null}>
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
-                                                        className="h-8 w-8 text-slate-400 hover:text-white hover:bg-white/10"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setOpenMenuId(openMenuId === user.id ? null : user.id);
+                                                        }}
+                                                        className={cn(
+                                                            "h-8 w-8 text-slate-400 hover:text-white hover:bg-white/10",
+                                                            openMenuId === user.id && "bg-white/10 text-white"
+                                                        )}
                                                     >
                                                         <MoreVertical className="h-4 w-4" />
                                                     </Button>
-                                                    <div className="absolute right-0 top-full mt-1 w-48 py-1 rounded-lg bg-slate-900 border border-white/10 shadow-xl opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible transition-all z-50">
+                                                    <div className={cn(
+                                                        "absolute right-0 top-full mt-1 w-48 py-1 rounded-lg bg-slate-900 border border-white/10 shadow-xl transition-all z-50",
+                                                        openMenuId === user.id ? "opacity-100 visible" : "opacity-0 invisible"
+                                                    )}>
                                                         {/* Approve (for pending users) */}
                                                         {user.status === "PENDING" && (
                                                             <button
-                                                                onClick={() => handleStatusChange(user.id, user.name, "APPROVED")}
+                                                                onClick={() => {
+                                                                    handleStatusChange(user.id, user.name, "APPROVED");
+                                                                    setOpenMenuId(null);
+                                                                }}
                                                                 disabled={isPending}
                                                                 className="w-full px-4 py-2 text-left text-sm text-emerald-400 hover:bg-emerald-500/10 flex items-center gap-2"
                                                             >
@@ -494,7 +522,10 @@ export function UserList({ users, buildings, onViewUser, initialFilters }: UserL
                                                         {/* Suspend/Reactivate */}
                                                         {user.status === "APPROVED" && (
                                                             <button
-                                                                onClick={() => handleStatusChange(user.id, user.name, "SUSPENDED")}
+                                                                onClick={() => {
+                                                                    handleStatusChange(user.id, user.name, "SUSPENDED");
+                                                                    setOpenMenuId(null);
+                                                                }}
                                                                 disabled={isPending}
                                                                 className="w-full px-4 py-2 text-left text-sm text-amber-400 hover:bg-amber-500/10 flex items-center gap-2"
                                                             >
@@ -504,7 +535,10 @@ export function UserList({ users, buildings, onViewUser, initialFilters }: UserL
                                                         )}
                                                         {user.status === "SUSPENDED" && (
                                                             <button
-                                                                onClick={() => handleStatusChange(user.id, user.name, "APPROVED")}
+                                                                onClick={() => {
+                                                                    handleStatusChange(user.id, user.name, "APPROVED");
+                                                                    setOpenMenuId(null);
+                                                                }}
                                                                 disabled={isPending}
                                                                 className="w-full px-4 py-2 text-left text-sm text-emerald-400 hover:bg-emerald-500/10 flex items-center gap-2"
                                                             >
@@ -516,7 +550,10 @@ export function UserList({ users, buildings, onViewUser, initialFilters }: UserL
                                                         {/* Make Admin */}
                                                         {user.role !== "ADMIN" && user.status === "APPROVED" && (
                                                             <button
-                                                                onClick={() => handleRoleChange(user.id, user.name, "ADMIN")}
+                                                                onClick={() => {
+                                                                    handleRoleChange(user.id, user.name, "ADMIN");
+                                                                    setOpenMenuId(null);
+                                                                }}
                                                                 disabled={isPending}
                                                                 className="w-full px-4 py-2 text-left text-sm text-purple-400 hover:bg-purple-500/10 flex items-center gap-2"
                                                             >
@@ -528,7 +565,10 @@ export function UserList({ users, buildings, onViewUser, initialFilters }: UserL
                                                         {/* Remove Admin */}
                                                         {user.role === "ADMIN" && (
                                                             <button
-                                                                onClick={() => handleRoleChange(user.id, user.name, user.userType === "OWNER" ? "OWNER" : "TENANT")}
+                                                                onClick={() => {
+                                                                    handleRoleChange(user.id, user.name, user.userType === "OWNER" ? "OWNER" : "TENANT");
+                                                                    setOpenMenuId(null);
+                                                                }}
                                                                 disabled={isPending}
                                                                 className="w-full px-4 py-2 text-left text-sm text-slate-400 hover:bg-white/10 flex items-center gap-2"
                                                             >
@@ -541,7 +581,10 @@ export function UserList({ users, buildings, onViewUser, initialFilters }: UserL
 
                                                         {/* View Details */}
                                                         <button
-                                                            onClick={() => onViewUser(user.id)}
+                                                            onClick={() => {
+                                                                onViewUser(user.id);
+                                                                setOpenMenuId(null);
+                                                            }}
                                                             className="w-full px-4 py-2 text-left text-sm text-slate-300 hover:bg-white/10 flex items-center gap-2"
                                                         >
                                                             <UserCog className="h-4 w-4" />
@@ -550,7 +593,10 @@ export function UserList({ users, buildings, onViewUser, initialFilters }: UserL
 
                                                         {/* Delete User */}
                                                         <button
-                                                            onClick={() => handleDeleteUser(user.id, user.name)}
+                                                            onClick={() => {
+                                                                handleDeleteUser(user.id, user.name);
+                                                                setOpenMenuId(null);
+                                                            }}
                                                             disabled={isPending}
                                                             className="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-red-500/10 flex items-center gap-2"
                                                         >
