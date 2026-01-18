@@ -22,7 +22,7 @@ export default async function AdminUsersPage({
     };
 
     const [usersResult, buildingsResult, statsResult] = await Promise.all([
-        getAdminUsers(filters),
+        getAdminUsers(),
         getBuildingsForFilter(),
         getUserStats(),
     ]);
