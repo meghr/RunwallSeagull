@@ -212,9 +212,9 @@ export function UserDetailModal({ userId, onClose }: UserDetailModalProps) {
             />
 
             {/* Modal */}
-            <div className="relative w-full max-w-2xl max-h-[90vh] overflow-hidden rounded-2xl bg-slate-900 border border-white/10 shadow-2xl flex flex-col">
+            <div className="relative w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden rounded-t-2xl sm:rounded-2xl bg-slate-900 border border-white/10 shadow-2xl flex flex-col mt-auto sm:mt-0">
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+                <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 shrink-0">
                     <h2 className="text-xl font-semibold text-white">User Details</h2>
                     <Button
                         variant="ghost"
@@ -227,11 +227,11 @@ export function UserDetailModal({ userId, onClose }: UserDetailModalProps) {
                 </div>
 
                 {/* Tabs */}
-                <div className="flex border-b border-white/10">
+                <div className="flex border-b border-white/10 shrink-0">
                     <button
                         onClick={() => setActiveTab("details")}
                         className={cn(
-                            "px-6 py-3 text-sm font-medium transition-colors",
+                            "flex-1 sm:flex-none px-6 py-3 text-sm font-medium transition-colors text-center",
                             activeTab === "details"
                                 ? "text-pink-400 border-b-2 border-pink-400"
                                 : "text-slate-400 hover:text-white"
@@ -243,7 +243,7 @@ export function UserDetailModal({ userId, onClose }: UserDetailModalProps) {
                     <button
                         onClick={() => setActiveTab("activity")}
                         className={cn(
-                            "px-6 py-3 text-sm font-medium transition-colors",
+                            "flex-1 sm:flex-none px-6 py-3 text-sm font-medium transition-colors text-center",
                             activeTab === "activity"
                                 ? "text-pink-400 border-b-2 border-pink-400"
                                 : "text-slate-400 hover:text-white"
@@ -255,7 +255,7 @@ export function UserDetailModal({ userId, onClose }: UserDetailModalProps) {
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 overflow-y-auto p-6">
+                <div className="flex-1 overflow-y-auto p-4 sm:p-6 custom-scrollbar">
                     {loading ? (
                         <div className="flex items-center justify-center py-20">
                             <Loader2 className="h-8 w-8 animate-spin text-pink-400" />

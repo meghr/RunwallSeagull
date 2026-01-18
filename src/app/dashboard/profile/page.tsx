@@ -16,14 +16,14 @@ export default async function ProfilePage() {
     }
 
     return (
-        <div className="min-h-screen bg-slate-950 text-white p-4 md:p-8">
+        <div className="min-h-screen bg-slate-950 text-white p-4 sm:p-6 md:p-8">
             <div className="max-w-3xl mx-auto space-y-6">
-                <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-indigo-400">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <h1 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-indigo-400">
                         My Profile
                     </h1>
-                    <Link href="/dashboard">
-                        <Button variant="outline" size="sm" className="border-white/10 text-slate-300 hover:text-white hover:bg-white/5">
+                    <Link href="/dashboard" className="w-full sm:w-auto">
+                        <Button variant="outline" size="sm" className="w-full sm:w-auto border-white/10 text-slate-300 hover:text-white hover:bg-white/5 py-4 sm:py-2">
                             Back to Dashboard
                         </Button>
                     </Link>

@@ -92,14 +92,14 @@ export function VehicleCard({ vehicle, onEdit, onDelete }: VehicleCardProps) {
             </div>
 
             {/* Actions */}
-            <div className="flex gap-2 pt-4 border-t border-white/10">
+            <div className="flex gap-2 pt-4 border-t border-white/10 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
                 <Button
                     variant="outline"
                     size="sm"
                     onClick={onEdit}
-                    className="flex-1 border-white/10 text-white hover:bg-white/10"
+                    className="flex-1 border-white/10 text-white hover:bg-white/10 py-5 sm:py-2"
                 >
-                    <Pencil className="h-4 w-4 mr-1" />
+                    <Pencil className="h-4 w-4 mr-1.5" />
                     Edit
                 </Button>
                 <Button
@@ -107,13 +107,13 @@ export function VehicleCard({ vehicle, onEdit, onDelete }: VehicleCardProps) {
                     size="sm"
                     onClick={handleDelete}
                     disabled={deleting}
-                    className="flex-1 border-red-500/30 text-red-400 hover:bg-red-500/10"
+                    className="flex-1 border-red-500/30 text-red-400 hover:bg-red-500/10 py-5 sm:py-2"
                 >
                     {deleting ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
                         <>
-                            <Trash2 className="h-4 w-4 mr-1" />
+                            <Trash2 className="h-4 w-4 mr-1.5" />
                             Delete
                         </>
                     )}

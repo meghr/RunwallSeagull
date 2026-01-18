@@ -71,7 +71,7 @@ export function NoticeCard({ notice, onClick }: NoticeCardProps) {
                     )}
                 </div>
 
-                <div className="text-sky-400 text-sm font-medium group-hover:underline">
+                <div className="text-sky-400 text-sm font-medium group-hover:underline min-h-[36px] flex items-center">
                     Read More →
                 </div>
             </div>

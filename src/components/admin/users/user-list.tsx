@@ -395,10 +395,10 @@ export function UserList({ users, buildings, onViewUser, totalCount, initialFilt
                                 <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wider px-4 py-3">
                                     User
                                 </th>
-                                <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wider px-4 py-3">
+                                <th className="hidden sm:table-cell text-left text-xs font-medium text-slate-400 uppercase tracking-wider px-4 py-3">
                                     Contact
                                 </th>
-                                <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wider px-4 py-3">
+                                <th className="hidden md:table-cell text-left text-xs font-medium text-slate-400 uppercase tracking-wider px-4 py-3">
                                     Location
                                 </th>
                                 <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wider px-4 py-3">
@@ -407,7 +407,7 @@ export function UserList({ users, buildings, onViewUser, totalCount, initialFilt
                                 <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wider px-4 py-3">
                                     Status
                                 </th>
-                                <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wider px-4 py-3">
+                                <th className="hidden sm:table-cell text-left text-xs font-medium text-slate-400 uppercase tracking-wider px-4 py-3">
                                     Joined
                                 </th>
                                 <th className="text-right text-xs font-medium text-slate-400 uppercase tracking-wider px-4 py-3">
@@ -453,7 +453,7 @@ export function UserList({ users, buildings, onViewUser, totalCount, initialFilt
                                         </td>
 
                                         {/* Contact */}
-                                        <td className="px-4 py-4">
+                                        <td className="hidden sm:table-cell px-4 py-4">
                                             <p className="text-sm text-white">{user.email}</p>
                                             <p className="text-xs text-slate-500">
                                                 {user.phoneNumber || "No phone"}
@@ -461,7 +461,7 @@ export function UserList({ users, buildings, onViewUser, totalCount, initialFilt
                                         </td>
 
                                         {/* Location */}
-                                        <td className="px-4 py-4">
+                                        <td className="hidden md:table-cell px-4 py-4">
                                             {user.building ? (
                                                 <div className="flex items-center gap-1 text-sm">
                                                     <Building2 className="h-3 w-3 text-slate-500" />
@@ -482,7 +482,7 @@ export function UserList({ users, buildings, onViewUser, totalCount, initialFilt
                                         <td className="px-4 py-4">{getStatusBadge(user.status)}</td>
 
                                         {/* Joined */}
-                                        <td className="px-4 py-4 text-sm text-slate-400">
+                                        <td className="hidden sm:table-cell px-4 py-4 text-sm text-slate-400">
                                             {format(new Date(user.createdAt), "MMM d, yyyy")}
                                         </td>
 

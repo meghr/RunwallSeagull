@@ -113,161 +113,219 @@ export default function RegisterPage() {
                         </div>
                     )}
 
+                    {/* Progress Indicator */}
+                    <div className="mb-8">
+                        <div className="flex items-center justify-between mb-2">
+                            {[1, 2, 3].map((s) => (
+                                <div
+                                    key={s}
+                                    className={cn(
+                                        "h-1.5 flex-1 rounded-full transition-all duration-300 mx-1",
+                                        step >= s ? "bg-sky-500" : "bg-white/10"
+                                    )}
+                                />
+                            ))}
+                        </div>
+                        <div className="flex justify-between text-[10px] uppercase tracking-wider text-slate-500 font-semibold px-1">
+                            <span>Account</span>
+                            <span>Property</span>
+                            <span>Security</span>
+                        </div>
+                    </div>
+
                     <form onSubmit={handleSubmit} className="space-y-6">
 
-                        {/* User Type Selection */}
-                        <div className="grid grid-cols-2 gap-4 rounded-lg bg-white/5 p-1">
-                            <button
-                                type="button"
-                                onClick={() => setFormData(prev => ({ ...prev, userType: "OWNER" }))}
-                                className={cn(
-                                    "rounded-md py-2 text-sm font-medium transition-all duration-200",
-                                    formData.userType === "OWNER"
-                                        ? "bg-sky-500 text-white shadow-lg"
-                                        : "text-slate-400 hover:text-white"
-                                )}
-                            >
-                                Owner
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => setFormData(prev => ({ ...prev, userType: "TENANT" }))}
-                                className={cn(
-                                    "rounded-md py-2 text-sm font-medium transition-all duration-200",
-                                    formData.userType === "TENANT"
-                                        ? "bg-sky-500 text-white shadow-lg"
-                                        : "text-slate-400 hover:text-white"
-                                )}
-                            >
-                                Tenant
-                            </button>
-                        </div>
+                        {step === 1 && (
+                            <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+                                <div className="grid grid-cols-2 gap-4 rounded-lg bg-white/5 p-1">
+                                    <button
+                                        type="button"
+                                        onClick={() => setFormData(prev => ({ ...prev, userType: "OWNER" }))}
+                                        className={cn(
+                                            "rounded-md py-2 text-sm font-medium transition-all duration-200",
+                                            formData.userType === "OWNER"
+                                                ? "bg-sky-500 text-white shadow-lg shadow-sky-500/20"
+                                                : "text-slate-400 hover:text-white"
+                                        )}
+                                    >
+                                        Owner
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setFormData(prev => ({ ...prev, userType: "TENANT" }))}
+                                        className={cn(
+                                            "rounded-md py-2 text-sm font-medium transition-all duration-200",
+                                            formData.userType === "TENANT"
+                                                ? "bg-sky-500 text-white shadow-lg shadow-sky-500/20"
+                                                : "text-slate-400 hover:text-white"
+                                        )}
+                                    >
+                                        Tenant
+                                    </button>
+                                </div>
 
-                        <div className="grid gap-6 md:grid-cols-2">
-                            {/* Personal Info */}
-                            <div className="space-y-2">
-                                <Label className="text-slate-200">Full Name</Label>
-                                <Input
-                                    name="name"
-                                    placeholder="John Doe"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    required
-                                    className="bg-white/5 border-white/10 text-white"
-                                />
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label className="text-slate-200">Email Address</Label>
-                                <Input
-                                    name="email"
-                                    type="email"
-                                    placeholder="john@example.com"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
-                                    className="bg-white/5 border-white/10 text-white"
-                                />
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label className="text-slate-200">Mobile Number</Label>
-                                <Input
-                                    name="phoneNumber"
-                                    type="tel"
-                                    placeholder="Enter 10 digit number"
-                                    value={formData.phoneNumber}
-                                    onChange={(e) => {
-                                        const value = e.target.value.replace(/\D/g, '').slice(0, 10);
-                                        setFormData(prev => ({ ...prev, phoneNumber: value }));
-                                    }}
-                                    required
-                                    className="bg-white/5 border-white/10 text-white"
-                                />
-                            </div>
-
-                            {/* Property Info */}
-                            <div className="space-y-2">
-                                <Label className="text-slate-200">Building</Label>
-                                <select
-                                    name="buildingId"
-                                    value={formData.buildingId}
-                                    onChange={handleChange}
-                                    required
-                                    className="flex h-10 w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <Label className="text-slate-200">Full Name</Label>
+                                        <Input
+                                            name="name"
+                                            placeholder="John Doe"
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            required
+                                            className="bg-white/5 border-white/10 text-white py-6"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-slate-200">Email Address</Label>
+                                        <Input
+                                            name="email"
+                                            type="email"
+                                            placeholder="john@example.com"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            required
+                                            className="bg-white/5 border-white/10 text-white py-6"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-slate-200">Mobile Number</Label>
+                                        <Input
+                                            name="phoneNumber"
+                                            type="tel"
+                                            placeholder="Enter 10 digit number"
+                                            value={formData.phoneNumber}
+                                            onChange={(e) => {
+                                                const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                                                setFormData(prev => ({ ...prev, phoneNumber: value }));
+                                            }}
+                                            required
+                                            className="bg-white/5 border-white/10 text-white py-6"
+                                        />
+                                    </div>
+                                </div>
+                                <Button
+                                    type="button"
+                                    onClick={() => setStep(2)}
+                                    className="w-full bg-sky-500 hover:bg-sky-600 font-semibold text-white py-6 mt-4 shadow-lg shadow-sky-500/20"
                                 >
-                                    <option value="" className="bg-slate-800 text-slate-400">Select Building Code</option>
-                                    {buildings.map((b) => (
-                                        <option key={b.id} value={b.id} className="bg-slate-800">
-                                            {b.buildingCode}
-                                        </option>
-                                    ))}
-                                </select>
+                                    Next: Property Details
+                                </Button>
                             </div>
+                        )}
 
-                            <div className="space-y-2">
-                                <Label className="text-slate-200">Flat Number</Label>
-                                <Input
-                                    name="flatNumber"
-                                    placeholder="e.g. 1101"
-                                    value={formData.flatNumber}
-                                    onChange={(e) => {
-                                        const value = e.target.value.replace(/\D/g, '').slice(0, 4);
-                                        setFormData(prev => ({ ...prev, flatNumber: value }));
-                                    }}
-                                    required
-                                    disabled={!formData.buildingId}
-                                    className="bg-white/5 border-white/10 text-white disabled:opacity-50"
-                                />
-                                <p className="text-[10px] text-slate-500">Must be a 4-digit number</p>
+                        {step === 2 && (
+                            <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <Label className="text-slate-200">Building</Label>
+                                        <select
+                                            name="buildingId"
+                                            value={formData.buildingId}
+                                            onChange={handleChange}
+                                            required
+                                            className="flex h-12 w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                                        >
+                                            <option value="" className="bg-slate-800 text-slate-400">Select Building Code</option>
+                                            {buildings.map((b) => (
+                                                <option key={b.id} value={b.id} className="bg-slate-800">
+                                                    {b.buildingCode}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-slate-200">Flat Number</Label>
+                                        <Input
+                                            name="flatNumber"
+                                            placeholder="e.g. 1101"
+                                            value={formData.flatNumber}
+                                            onChange={(e) => {
+                                                const value = e.target.value.replace(/\D/g, '').slice(0, 4);
+                                                setFormData(prev => ({ ...prev, flatNumber: value }));
+                                            }}
+                                            required
+                                            disabled={!formData.buildingId}
+                                            className="bg-white/5 border-white/10 text-white py-6 disabled:opacity-50"
+                                        />
+                                        <p className="text-[10px] text-slate-500">Must be a 4-digit number</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-slate-200">Profile Picture (Optional)</Label>
+                                        <FileUpload
+                                            value={formData.profileImageUrl}
+                                            onChange={handleImageUpload}
+                                            endpoint="image"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() => setStep(1)}
+                                        className="flex-1 border-white/10 text-white py-6"
+                                    >
+                                        Back
+                                    </Button>
+                                    <Button
+                                        type="button"
+                                        onClick={() => setStep(3)}
+                                        className="flex-[2] bg-sky-500 hover:bg-sky-600 font-semibold text-white py-6 shadow-lg shadow-sky-500/20"
+                                    >
+                                        Next: Security
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
+                        )}
 
-                        {/* Profile Picture */}
-                        <div className="space-y-2">
-                            <Label className="text-slate-200">Profile Picture (Optional)</Label>
-                            <FileUpload
-                                value={formData.profileImageUrl}
-                                onChange={handleImageUpload}
-                                endpoint="image"
-                            />
-                        </div>
-
-                        <div className="grid gap-6 md:grid-cols-2">
-                            <div className="space-y-2">
-                                <Label className="text-slate-200">Password</Label>
-                                <Input
-                                    name="password"
-                                    type="password"
-                                    placeholder="******"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
-                                    className="bg-white/5 border-white/10 text-white"
-                                />
+                        {step === 3 && (
+                            <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <Label className="text-slate-200">Password</Label>
+                                        <Input
+                                            name="password"
+                                            type="password"
+                                            placeholder="******"
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            required
+                                            className="bg-white/5 border-white/10 text-white py-6"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-slate-200">Confirm Password</Label>
+                                        <Input
+                                            name="confirmPassword"
+                                            type="password"
+                                            placeholder="******"
+                                            value={formData.confirmPassword}
+                                            onChange={handleChange}
+                                            required
+                                            className="bg-white/5 border-white/10 text-white py-6"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() => setStep(2)}
+                                        className="flex-1 border-white/10 text-white py-6"
+                                    >
+                                        Back
+                                    </Button>
+                                    <Button
+                                        type="submit"
+                                        disabled={isPending}
+                                        className="flex-[2] bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 font-semibold text-white py-6 shadow-lg shadow-sky-500/20"
+                                    >
+                                        {isPending ? "Creating Account..." : "Register"}
+                                    </Button>
+                                </div>
                             </div>
-
-                            <div className="space-y-2">
-                                <Label className="text-slate-200">Confirm Password</Label>
-                                <Input
-                                    name="confirmPassword"
-                                    type="password"
-                                    placeholder="******"
-                                    value={formData.confirmPassword}
-                                    onChange={handleChange}
-                                    required
-                                    className="bg-white/5 border-white/10 text-white"
-                                />
-                            </div>
-                        </div>
-
-                        <Button
-                            type="submit"
-                            disabled={isPending}
-                            className="w-full bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-lg py-6 shadow-lg shadow-sky-500/20"
-                        >
-                            {isPending ? "Creating Account..." : "Register"}
-                        </Button>
+                        )}
                     </form>
 
                     <div className="mt-8 text-center text-sm text-slate-400">

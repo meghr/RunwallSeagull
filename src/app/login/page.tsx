@@ -6,6 +6,7 @@ import { authenticate } from "@/lib/actions/auth"; // Server Action
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 export default function LoginPage() {
     const [errorMessage, formAction, isPending] = useActionState(
@@ -36,27 +37,37 @@ export default function LoginPage() {
                                 type="email"
                                 placeholder="john@example.com"
                                 required
-                                className="bg-white/5 border-white/10 text-white"
+                                className="bg-white/5 border-white/10 text-white py-6 focus:ring-sky-500/50"
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <Label className="text-slate-200">Password</Label>
+                            <div className="flex items-center justify-between">
+                                <Label className="text-slate-200">Password</Label>
+                                <Link href="#" className="text-xs text-sky-400 hover:text-sky-300">
+                                    Forgot password?
+                                </Link>
+                            </div>
                             <Input
                                 name="password"
                                 type="password"
                                 placeholder="******"
                                 required
-                                className="bg-white/5 border-white/10 text-white"
+                                className="bg-white/5 border-white/10 text-white py-6 focus:ring-sky-500/50"
                             />
                         </div>
 
                         <Button
                             type="submit"
                             disabled={isPending}
-                            className="w-full bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-lg py-6 shadow-lg shadow-sky-500/20"
+                            className="w-full bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-lg py-6 shadow-lg shadow-sky-500/20 transition-all duration-200 active:scale-[0.98]"
                         >
-                            {isPending ? "Signing in..." : "Sign In"}
+                            {isPending ? (
+                                <div className="flex items-center gap-2">
+                                    <Loader2 className="h-5 w-5 animate-spin" />
+                                    <span>Signing in...</span>
+                                </div>
+                            ) : "Sign In"}
                         </Button>
                     </form>
 

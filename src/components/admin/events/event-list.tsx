@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useTransition, useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Event, EventType } from "@prisma/client";
@@ -40,6 +40,21 @@ interface EventListProps {
 export function EventList({ events }: EventListProps) {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
+    const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setOpenMenuId(null);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     const handleDelete = async (id: string, title: string, regCount: number) => {
         if (regCount > 0) {
@@ -298,21 +313,32 @@ export function EventList({ events }: EventListProps) {
                                         </Link>
 
                                         {/* More Actions Dropdown */}
-                                        <div className="relative group/menu">
+                                        <div className="relative" ref={openMenuId === event.id ? menuRef : null}>
                                             <Button
                                                 variant="ghost"
                                                 size="icon"
-                                                className="h-9 w-9 text-slate-400 hover:text-white hover:bg-white/10"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setOpenMenuId(openMenuId === event.id ? null : event.id);
+                                                }}
+                                                className={cn(
+                                                    "h-9 w-9 text-slate-400 hover:text-white hover:bg-white/10",
+                                                    openMenuId === event.id && "bg-white/10 text-white"
+                                                )}
                                             >
                                                 <MoreVertical className="h-4 w-4" />
                                             </Button>
-                                            <div className="absolute right-0 top-full mt-1 w-48 py-1 rounded-lg bg-slate-900 border border-white/10 shadow-xl opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible transition-all z-50">
+                                            <div className={cn(
+                                                "absolute right-0 top-full mt-1 w-48 py-1 rounded-lg bg-slate-900 border border-white/10 shadow-xl transition-all z-50",
+                                                openMenuId === event.id ? "opacity-100 visible" : "opacity-0 invisible"
+                                            )}>
                                                 {event.registrationRequired &&
                                                     regStatus?.label === "Open" && (
                                                         <button
-                                                            onClick={() =>
-                                                                handleCloseRegistration(event.id, event.title)
-                                                            }
+                                                            onClick={() => {
+                                                                handleCloseRegistration(event.id, event.title);
+                                                                setOpenMenuId(null);
+                                                            }}
                                                             disabled={isPending}
                                                             className="w-full px-4 py-2 text-left text-sm text-slate-300 hover:bg-white/10 flex items-center gap-2"
                                                         >
@@ -322,9 +348,10 @@ export function EventList({ events }: EventListProps) {
                                                     )}
                                                 {event.published && (
                                                     <button
-                                                        onClick={() =>
-                                                            handleCancelEvent(event.id, event.title)
-                                                        }
+                                                        onClick={() => {
+                                                            handleCancelEvent(event.id, event.title);
+                                                            setOpenMenuId(null);
+                                                        }}
                                                         disabled={isPending}
                                                         className="w-full px-4 py-2 text-left text-sm text-amber-400 hover:bg-amber-500/10 flex items-center gap-2"
                                                     >
@@ -333,13 +360,14 @@ export function EventList({ events }: EventListProps) {
                                                     </button>
                                                 )}
                                                 <button
-                                                    onClick={() =>
+                                                    onClick={() => {
                                                         handleDelete(
                                                             event.id,
                                                             event.title,
                                                             event._count.registrations
-                                                        )
-                                                    }
+                                                        );
+                                                        setOpenMenuId(null);
+                                                    }}
                                                     disabled={isPending}
                                                     className="w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-red-500/10 flex items-center gap-2"
                                                 >

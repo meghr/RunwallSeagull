@@ -25,36 +25,38 @@ const filters = [
 
 export function NoticeFilters({ activeFilter, onFilterChange, counts }: NoticeFiltersProps) {
     return (
-        <div className="flex flex-wrap gap-2">
-            {filters.map((filter) => {
-                const isActive = activeFilter === filter.value;
-                const count = counts ? counts[filter.value.toLowerCase() as keyof typeof counts] : null;
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
+            <div className="flex gap-2 min-w-max sm:min-w-0">
+                {filters.map((filter) => {
+                    const isActive = activeFilter === filter.value;
+                    const count = counts ? counts[filter.value.toLowerCase() as keyof typeof counts] : null;
 
-                return (
-                    <Button
-                        key={filter.value}
-                        variant={isActive ? "default" : "outline"}
-                        className={`
+                    return (
+                        <Button
+                            key={filter.value}
+                            variant={isActive ? "default" : "outline"}
+                            className={`
               ${isActive
-                                ? 'bg-sky-500 hover:bg-sky-600 text-white border-sky-500'
-                                : `${filter.color} hover:bg-white/10`
-                            }
+                                    ? 'bg-sky-500 hover:bg-sky-600 text-white border-sky-500'
+                                    : `${filter.color} hover:bg-white/10`
+                                }
               transition-all
             `}
-                        onClick={() => onFilterChange(filter.value)}
-                    >
-                        {filter.label}
-                        {count !== null && count > 0 && (
-                            <Badge
-                                variant="secondary"
-                                className="ml-2 bg-white/20 text-white border-0"
-                            >
-                                {count}
-                            </Badge>
-                        )}
-                    </Button>
-                );
-            })}
+                            onClick={() => onFilterChange(filter.value)}
+                        >
+                            {filter.label}
+                            {count !== null && count > 0 && (
+                                <Badge
+                                    variant="secondary"
+                                    className="ml-2 bg-white/20 text-white border-0"
+                                >
+                                    {count}
+                                </Badge>
+                            )}
+                        </Button>
+                    );
+                })}
+            </div>
         </div>
     );
 }

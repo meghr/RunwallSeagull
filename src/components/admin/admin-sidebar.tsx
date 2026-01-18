@@ -97,7 +97,7 @@ function AdminSidebarContent({ pathname, onNavClick, compact = false }: AdminSid
 
             {/* Sign Out Button */}
             <div className={cn(
-                "border-t border-white/10",
+                "border-t border-white/10 mb-6",
                 compact ? "p-3" : "p-4"
             )}>
                 <button

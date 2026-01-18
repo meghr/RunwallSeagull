@@ -77,7 +77,7 @@ export default async function Home() {
 
       <main className="flex-1 pt-16">
         {/* Hero Section */}
-        <section className="relative w-full py-20 md:py-32 lg:py-40 px-4 md:px-6 overflow-hidden">
+        <section className="relative w-full py-16 xs:py-20 md:py-32 lg:py-40 px-4 md:px-6 overflow-hidden">
           {/* Animated Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900">
             <div className="absolute inset-0 opacity-20">
@@ -88,26 +88,26 @@ export default async function Home() {
           </div>
 
           <div className="relative z-10 container mx-auto text-center">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
+            <h1 className="text-4xl xs:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-400 via-purple-400 to-pink-400 animate-gradient" style={{ backgroundSize: "200% 200%" }}>
                 Smart Living for
               </span>
               <br />
               <span className="text-white">Modern Communities</span>
             </h1>
-            <p className="mx-auto max-w-[700px] text-slate-300 text-lg md:text-xl mb-10 leading-relaxed">
+            <p className="mx-auto max-w-[700px] text-slate-300 text-base xs:text-lg md:text-xl mb-10 leading-relaxed px-4">
               Experience seamless society management with Runwal Seagull Portal.
               Connect with neighbors, stay updated with notices, participate in events, and more.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link href="/register">
-                <Button size="lg" className="bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white px-8 py-6 text-lg rounded-full shadow-lg shadow-sky-500/50 transition-all hover:shadow-xl hover:scale-105">
+            <div className="flex flex-col xs:flex-row gap-4 justify-center items-center">
+              <Link href="/register" className="w-full xs:w-auto px-4 xs:px-0">
+                <Button size="lg" className="w-full xs:w-auto bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white px-8 py-7 xs:py-6 text-lg rounded-full shadow-lg shadow-sky-500/50 transition-all hover:shadow-xl hover:scale-105">
                   Get Started
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link href="/login">
-                <Button size="lg" variant="outline" className="bg-white/5 border-white/20 text-white hover:bg-white/10 px-8 py-6 text-lg rounded-full backdrop-blur transition-all hover:scale-105">
+              <Link href="/login" className="w-full xs:w-auto px-4 xs:px-0">
+                <Button size="lg" variant="outline" className="w-full xs:w-auto bg-white/5 border-white/20 text-white hover:bg-white/10 px-8 py-7 xs:py-6 text-lg rounded-full backdrop-blur transition-all hover:scale-105">
                   Sign In
                 </Button>
               </Link>
@@ -116,24 +116,24 @@ export default async function Home() {
         </section>
 
         {/* Stats Section */}
-        <section className="w-full py-12 px-4 md:px-6 bg-slate-900/50 border-y border-white/10">
+        <section className="w-full py-10 xs:py-12 px-4 md:px-6 bg-slate-900/50 border-y border-white/10">
           <div className="container mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div className="space-y-2">
-                <p className="text-4xl md:text-5xl font-bold text-sky-400">1000+</p>
-                <p className="text-slate-400">Residents</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 xs:gap-8 text-center">
+              <div className="space-y-1 xs:space-y-2">
+                <p className="text-3xl xs:text-4xl md:text-5xl font-bold text-sky-400">1000+</p>
+                <p className="text-xs xs:text-sm md:text-base text-slate-400 uppercase tracking-wider font-medium">Residents</p>
               </div>
-              <div className="space-y-2">
-                <p className="text-4xl md:text-5xl font-bold text-purple-400">50+</p>
-                <p className="text-slate-400">Events/Year</p>
+              <div className="space-y-1 xs:space-y-2">
+                <p className="text-3xl xs:text-4xl md:text-5xl font-bold text-purple-400">50+</p>
+                <p className="text-xs xs:text-sm md:text-base text-slate-400 uppercase tracking-wider font-medium">Events/Year</p>
               </div>
-              <div className="space-y-2">
-                <p className="text-4xl md:text-5xl font-bold text-pink-400">24/7</p>
-                <p className="text-slate-400">Support</p>
+              <div className="space-y-1 xs:space-y-2">
+                <p className="text-3xl xs:text-4xl md:text-5xl font-bold text-pink-400">24/7</p>
+                <p className="text-xs xs:text-sm md:text-base text-slate-400 uppercase tracking-wider font-medium">Support</p>
               </div>
-              <div className="space-y-2">
-                <p className="text-4xl md:text-5xl font-bold text-indigo-400">100%</p>
-                <p className="text-slate-400">Digital</p>
+              <div className="space-y-1 xs:space-y-2">
+                <p className="text-3xl xs:text-4xl md:text-5xl font-bold text-indigo-400">100%</p>
+                <p className="text-xs xs:text-sm md:text-base text-slate-400 uppercase tracking-wider font-medium">Digital</p>
               </div>
             </div>
           </div>
@@ -272,14 +272,14 @@ export default async function Home() {
         </section>
 
         {/* About Section */}
-        <section id="about" className="w-full py-20 md:py-32 px-4 md:px-6 bg-gradient-to-br from-slate-900 to-indigo-900/30">
+        <section id="about" className="w-full py-16 xs:py-20 md:py-32 px-4 md:px-6 bg-gradient-to-br from-slate-900 to-indigo-900/30">
           <div className="container mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xs:gap-12 items-center">
+              <div className="order-2 lg:order-1">
+                <h2 className="text-3xl xs:text-4xl lg:text-5xl font-bold text-white mb-6 text-center lg:text-left">
                   About Runwal Seagull
                 </h2>
-                <div className="space-y-4 text-slate-300 text-lg leading-relaxed">
+                <div className="space-y-4 text-slate-300 text-base xs:text-lg leading-relaxed">
                   <p>
                     <strong className="text-white">Runwal Seagull Society</strong> is a premier residential community
                     offering modern amenities and a vibrant lifestyle. Our society management portal
@@ -289,17 +289,18 @@ export default async function Home() {
                     With state-of-the-art facilities, dedicated management, and a thriving community,
                     Runwal Seagull provides the perfect environment for families to grow and prosper.
                   </p>
-                  <p>
+                  <p className="hidden xs:block">
                     Our digital platform ensures seamless communication, efficient service delivery,
                     and enhanced community engagement. From notices to events, from complaints to
                     neighbor connections - everything is just a click away.
                   </p>
                 </div>
               </div>
-              <div className="relative">
-                <div className="aspect-square rounded-2xl bg-gradient-to-br from-sky-500/20 to-purple-500/20 backdrop-blur border border-white/10 p-8">
-                  <div className="h-full w-full flex items-center justify-center">
-                    <Building2 className="h-48 w-48 text-sky-400/50" />
+              <div className="relative order-1 lg:order-2 px-6 xs:px-12 lg:px-0">
+                <div className="aspect-square rounded-2xl bg-gradient-to-br from-sky-500/20 to-purple-500/20 backdrop-blur border border-white/10 p-8 flex items-center justify-center">
+                  <div className="relative animate-pulse">
+                    <Building2 className="h-32 xs:h-48 w-32 xs:w-48 text-sky-400/50" />
+                    <div className="absolute inset-0 blur-2xl bg-sky-500/20 rounded-full" />
                   </div>
                 </div>
               </div>
@@ -372,39 +373,39 @@ export default async function Home() {
       {/* Footer */}
       <footer className="w-full py-8 px-4 md:px-6 bg-slate-900 border-t border-white/10">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 mb-12">
+            <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-2 mb-4">
                 <Building2 className="h-6 w-6 text-sky-400" />
                 <span className="font-bold text-white">Runwal Seagull</span>
               </div>
-              <p className="text-slate-400 text-sm">
-                Smart living for modern communities. Your gateway to seamless society management.
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Smart living for modern communities. Your gateway to seamless society management and a vibrant residential experience.
               </p>
             </div>
 
-            <div>
-              <h3 className="font-semibold text-white mb-4">Quick Links</h3>
-              <ul className="space-y-2 text-sm">
+            <div className="ps-4 xs:ps-0">
+              <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-widest">Quick Links</h3>
+              <ul className="space-y-3 text-sm">
                 <li><Link href="#features" className="text-slate-400 hover:text-sky-400 transition-colors">Features</Link></li>
                 <li><Link href="#about" className="text-slate-400 hover:text-sky-400 transition-colors">About Us</Link></li>
                 <li><Link href="#contact" className="text-slate-400 hover:text-sky-400 transition-colors">Contact</Link></li>
               </ul>
             </div>
 
-            <div>
-              <h3 className="font-semibold text-white mb-4">Services</h3>
-              <ul className="space-y-2 text-sm">
+            <div className="ps-4 xs:ps-0">
+              <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-widest">Services</h3>
+              <ul className="space-y-3 text-sm">
                 <li><span className="text-slate-400">Notice Board</span></li>
-                <li><span className="text-slate-400">Event Management</span></li>
-                <li><span className="text-slate-400">Complaint System</span></li>
+                <li><span className="text-slate-400">Event Portal</span></li>
+                <li><span className="text-slate-400">Help Desk</span></li>
                 <li><span className="text-slate-400">Marketplace</span></li>
               </ul>
             </div>
 
-            <div>
-              <h3 className="font-semibold text-white mb-4">Legal</h3>
-              <ul className="space-y-2 text-sm">
+            <div className="col-span-2 md:col-span-1 border-t border-white/5 pt-8 md:pt-0 md:border-t-0">
+              <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-widest">Legal</h3>
+              <ul className="space-y-3 text-sm">
                 <li><Link href="#" className="text-slate-400 hover:text-sky-400 transition-colors">Privacy Policy</Link></li>
                 <li><Link href="#" className="text-slate-400 hover:text-sky-400 transition-colors">Terms of Service</Link></li>
               </ul>

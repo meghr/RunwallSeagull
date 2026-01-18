@@ -67,10 +67,10 @@ export function NoticeList({ notices }: NoticeListProps) {
                         <tr>
                             <th className="px-6 py-4 font-medium">Title</th>
                             <th className="px-6 py-4 font-medium">Type</th>
-                            <th className="px-6 py-4 font-medium">Visibility</th>
+                            <th className="hidden sm:table-cell px-6 py-4 font-medium">Visibility</th>
                             <th className="px-6 py-4 font-medium">Status</th>
-                            <th className="px-6 py-4 font-medium">Author</th>
-                            <th className="px-6 py-4 font-medium">Date</th>
+                            <th className="hidden md:table-cell px-6 py-4 font-medium">Author</th>
+                            <th className="hidden sm:table-cell px-6 py-4 font-medium">Date</th>
                             <th className="px-6 py-4 font-medium text-right">Actions</th>
                         </tr>
                     </thead>
@@ -87,7 +87,7 @@ export function NoticeList({ notices }: NoticeListProps) {
                                         {notice.noticeType}
                                     </Badge>
                                 </td>
-                                <td className="px-6 py-4 text-slate-300">
+                                <td className="hidden sm:table-cell px-6 py-4 text-slate-300">
                                     {notice.visibility}
                                 </td>
                                 <td className="px-6 py-4">
@@ -101,10 +101,10 @@ export function NoticeList({ notices }: NoticeListProps) {
                                         </Badge>
                                     )}
                                 </td>
-                                <td className="px-6 py-4 text-slate-300">
+                                <td className="hidden md:table-cell px-6 py-4 text-slate-300">
                                     {notice.creator.name}
                                 </td>
-                                <td className="px-6 py-4 text-slate-400">
+                                <td className="hidden sm:table-cell px-6 py-4 text-slate-400">
                                     {format(new Date(notice.createdAt), "MMM d, yyyy")}
                                 </td>
                                 <td className="px-6 py-4 text-right">

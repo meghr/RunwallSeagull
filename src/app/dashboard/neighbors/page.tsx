@@ -21,32 +21,31 @@ export default async function NeighborsPage() {
             {/* Header */}
             <header className="border-b border-white/10 bg-slate-900/50 backdrop-blur-md sticky top-0 z-40">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
-                        <div className="flex items-center gap-4">
-                            <Link
-                                href="/dashboard"
-                                className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
-                            >
-                                <ArrowLeft className="h-5 w-5" />
-                                <span className="text-sm">Back to Dashboard</span>
-                            </Link>
-                            <div className="h-6 w-px bg-white/10" />
-                            <div className="flex items-center gap-2">
-                                <Users className="h-5 w-5 text-sky-400" />
-                                <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-indigo-400">
-                                    Neighbor Directory
-                                </h1>
-                            </div>
+                    <div className="flex items-center h-16 gap-3 sm:gap-4">
+                        <Link
+                            href="/dashboard"
+                            className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors p-2 -ml-2 rounded-lg hover:bg-white/5"
+                            title="Back to Dashboard"
+                        >
+                            <ArrowLeft className="h-5 w-5" />
+                            <span className="text-sm hidden sm:inline">Back</span>
+                        </Link>
+                        <div className="h-6 w-px bg-white/10" />
+                        <div className="flex items-center gap-2 flex-1 min-w-0">
+                            <Users className="h-5 w-5 text-sky-400 shrink-0" />
+                            <h1 className="text-lg sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-indigo-400 truncate">
+                                Neighbor Directory
+                            </h1>
                         </div>
                     </div>
                 </div>
             </header>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
                 {/* Introduction */}
-                <div className="mb-8 p-4 rounded-lg bg-white/5 border border-white/10">
-                    <p className="text-slate-300">
+                <div className="mb-6 sm:mb-8 p-4 rounded-lg bg-white/5 border border-white/10 sm:block hidden">
+                    <p className="text-sm sm:text-base text-slate-300">
                         Connect with your neighbors! Browse the directory to find residents by building,
                         flat, or name. You can save contacts directly to your phone using the vCard download feature.
                     </p>

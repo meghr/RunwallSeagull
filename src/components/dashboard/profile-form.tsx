@@ -49,12 +49,12 @@ export function ProfileForm({ user }: ProfileFormProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8 bg-white/5 p-6 rounded-xl border border-white/10">
+        <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 bg-white/5 p-4 sm:p-6 rounded-xl border border-white/10">
 
             {/* Profile Image */}
             <div className="flex flex-col items-center sm:flex-row gap-6">
                 <div className="shrink-0">
-                    <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-slate-700 bg-slate-800">
+                    <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-slate-700 bg-slate-800 shadow-xl">
                         {formData.profileImageUrl ? (
                             <img src={formData.profileImageUrl} alt="Profile" className="w-full h-full object-cover" />
                         ) : (
@@ -64,24 +64,26 @@ export function ProfileForm({ user }: ProfileFormProps) {
                         )}
                     </div>
                 </div>
-                <div className="flex-1 space-y-2 w-full">
+                <div className="flex-1 space-y-3 w-full text-center sm:text-left">
                     <Label className="text-slate-300">Profile Picture</Label>
-                    <FileUpload
-                        value={formData.profileImageUrl}
-                        onChange={(url) => setFormData(p => ({ ...p, profileImageUrl: url }))}
-                        endpoint="image"
-                    />
-                    <p className="text-xs text-slate-500">Supported formats: JPG, PNG, WebP (Max 5MB)</p>
+                    <div className="max-w-md mx-auto sm:mx-0">
+                        <FileUpload
+                            value={formData.profileImageUrl}
+                            onChange={(url) => setFormData(p => ({ ...p, profileImageUrl: url }))}
+                            endpoint="image"
+                        />
+                    </div>
+                    <p className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-wider font-semibold">Supported: JPG, PNG, WebP (Max 5MB)</p>
                 </div>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-2">
                 <div className="space-y-2">
                     <Label className="text-slate-300">Full Name</Label>
                     <Input
                         value={formData.name}
                         onChange={(e) => setFormData(p => ({ ...p, name: e.target.value }))}
-                        className="bg-slate-900/50 border-white/10 text-white"
+                        className="bg-slate-900/50 border-white/10 text-white py-6"
                     />
                 </div>
 
@@ -91,7 +93,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
                         value={formData.phoneNumber}
                         onChange={(e) => setFormData(p => ({ ...p, phoneNumber: e.target.value }))}
                         placeholder="+91..."
-                        className="bg-slate-900/50 border-white/10 text-white"
+                        className="bg-slate-900/50 border-white/10 text-white py-6"
                     />
                 </div>
 
@@ -100,13 +102,13 @@ export function ProfileForm({ user }: ProfileFormProps) {
                     <Input
                         value={user.email}
                         disabled
-                        className="bg-slate-900/20 border-white/5 text-slate-500 cursor-not-allowed"
+                        className="bg-slate-900/20 border-white/5 text-slate-500 cursor-not-allowed py-6"
                     />
                 </div>
 
                 <div className="space-y-2">
                     <Label className="text-slate-300">Role</Label>
-                    <div className="px-3 py-2 rounded-md border border-white/5 bg-slate-900/20 text-slate-400 text-sm">
+                    <div className="px-3 py-4 rounded-md border border-white/5 bg-slate-900/20 text-slate-400 text-sm">
                         {user.role}
                     </div>
                 </div>
@@ -117,12 +119,12 @@ export function ProfileForm({ user }: ProfileFormProps) {
                 <h3 className="font-medium text-white flex items-center gap-2">
                     Privacy Settings
                 </h3>
-                <div className="flex items-center justify-between p-4 rounded-lg bg-white/5 border border-white/10">
-                    <div>
-                        <p className="font-medium text-slate-200">Show profile in Neighbor Directory</p>
-                        <p className="text-sm text-slate-500 text-balance">When enabled, other residents can find you and see your contact details in the society directory.</p>
+                <div className="flex items-center justify-between p-4 rounded-lg bg-white/5 border border-white/10 gap-4">
+                    <div className="flex-1">
+                        <p className="font-medium text-slate-200 text-sm sm:text-base">Show profile in Neighbor Directory</p>
+                        <p className="text-xs sm:text-sm text-slate-500 text-balance mt-1">When enabled, other residents can find you and see your contact details.</p>
                     </div>
-                    <label className="relative inline-flex items-center cursor-pointer">
+                    <label className="relative inline-flex items-center cursor-pointer shrink-0">
                         <input
                             type="checkbox"
                             checked={formData.isProfilePublic}
@@ -136,15 +138,15 @@ export function ProfileForm({ user }: ProfileFormProps) {
 
             {/* Residence Info */}
             <div className="rounded-lg bg-sky-500/5 p-4 border border-sky-500/10">
-                <h3 className="font-medium text-sky-400 mb-2">My Residence</h3>
-                <div className="grid grid-cols-2 gap-4 text-sm">
+                <h3 className="text-xs font-bold text-sky-500 uppercase tracking-widest mb-3">Residence Details</h3>
+                <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <span className="text-slate-500 block">Building</span>
-                        <span className="text-slate-200">{user.building?.name || "Not Assigned"}</span>
+                        <span className="text-[10px] text-slate-500 block uppercase font-bold tracking-tight">Building</span>
+                        <span className="text-slate-200 font-medium">{user.building?.name || "Not Assigned"}</span>
                     </div>
                     <div>
-                        <span className="text-slate-500 block">Flat Number</span>
-                        <span className="text-slate-200">{user.flat?.flatNumber || "Not Assigned"}</span>
+                        <span className="text-[10px] text-slate-500 block uppercase font-bold tracking-tight">Flat Number</span>
+                        <span className="text-slate-200 font-medium">{user.flat?.flatNumber || "Not Assigned"}</span>
                     </div>
                 </div>
             </div>
@@ -159,7 +161,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
                 <Button
                     type="submit"
                     disabled={isPending}
-                    className="bg-sky-500 hover:bg-sky-600 text-white min-w-[120px]"
+                    className="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white min-w-[120px] py-6 sm:py-2 font-semibold shadow-lg shadow-sky-500/20"
                 >
                     {isPending ? "Saving..." : "Save Changes"}
                 </Button>

@@ -25,27 +25,29 @@ const typeFilters = [
 
 export function EventFilters({ activeFilter, onFilterChange }: EventFiltersProps) {
     return (
-        <div className="flex flex-wrap gap-2">
-            {timeFilters.map((filter) => {
-                const isActive = activeFilter === filter.value;
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
+            <div className="flex gap-2 min-w-max sm:min-w-0">
+                {timeFilters.map((filter) => {
+                    const isActive = activeFilter === filter.value;
 
-                return (
-                    <Button
-                        key={filter.value}
-                        variant={isActive ? "default" : "outline"}
-                        className={`
+                    return (
+                        <Button
+                            key={filter.value}
+                            variant={isActive ? "default" : "outline"}
+                            className={`
               ${isActive
-                                ? 'bg-sky-500 hover:bg-sky-600 text-white border-sky-500'
-                                : 'border-white/10 text-slate-400 hover:bg-white/10 hover:text-white'
-                            }
+                                    ? 'bg-sky-500 hover:bg-sky-600 text-white border-sky-500'
+                                    : 'border-white/10 text-slate-400 hover:bg-white/10 hover:text-white'
+                                }
               transition-all
             `}
-                        onClick={() => onFilterChange(filter.value)}
-                    >
-                        {filter.label}
-                    </Button>
-                );
-            })}
+                            onClick={() => onFilterChange(filter.value)}
+                        >
+                            {filter.label}
+                        </Button>
+                    );
+                })}
+            </div>
         </div>
     );
 }
@@ -58,28 +60,30 @@ export function EventTypeFilters({
     onTypeChange: (type: string) => void;
 }) {
     return (
-        <div className="flex flex-wrap gap-2">
-            {typeFilters.map((filter) => {
-                const isActive = activeType === filter.value;
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
+            <div className="flex gap-2 min-w-max sm:min-w-0">
+                {typeFilters.map((filter) => {
+                    const isActive = activeType === filter.value;
 
-                return (
-                    <Button
-                        key={filter.value}
-                        variant={isActive ? "default" : "outline"}
-                        size="sm"
-                        className={`
+                    return (
+                        <Button
+                            key={filter.value}
+                            variant={isActive ? "default" : "outline"}
+                            size="sm"
+                            className={`
               ${isActive
-                                ? 'bg-indigo-500 hover:bg-indigo-600 text-white border-indigo-500'
-                                : 'border-white/10 text-slate-400 hover:bg-white/10 hover:text-white'
-                            }
+                                    ? 'bg-indigo-500 hover:bg-indigo-600 text-white border-indigo-500'
+                                    : 'border-white/10 text-slate-400 hover:bg-white/10 hover:text-white'
+                                }
               transition-all
             `}
-                        onClick={() => onTypeChange(filter.value)}
-                    >
-                        {filter.label}
-                    </Button>
-                );
-            })}
+                            onClick={() => onTypeChange(filter.value)}
+                        >
+                            {filter.label}
+                        </Button>
+                    );
+                })}
+            </div>
         </div>
     );
 }

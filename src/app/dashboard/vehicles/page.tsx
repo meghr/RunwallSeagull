@@ -47,36 +47,38 @@ export default function MyVehiclesPage() {
             {/* Header */}
             <header className="border-b border-white/10 bg-slate-900/50 backdrop-blur-md sticky top-0 z-40">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
-                        <div className="flex items-center gap-4">
+                    <div className="flex flex-col sm:flex-row items-center justify-between py-3 sm:h-16 gap-3 sm:gap-0">
+                        <div className="flex items-center gap-3 w-full sm:w-auto">
                             <Link
                                 href="/dashboard"
-                                className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+                                className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors p-2 -ml-2 rounded-lg hover:bg-white/5"
+                                title="Back to Dashboard"
                             >
                                 <ArrowLeft className="h-5 w-5" />
-                                <span className="text-sm">Back to Dashboard</span>
+                                <span className="text-sm hidden sm:inline">Back</span>
                             </Link>
-                            <div className="h-6 w-px bg-white/10" />
-                            <div className="flex items-center gap-2">
-                                <Car className="h-5 w-5 text-sky-400" />
-                                <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-indigo-400">
+                            <div className="h-6 w-px bg-white/10 hidden sm:block" />
+                            <div className="flex items-center gap-2 flex-1">
+                                <Car className="h-5 w-5 text-sky-400 shrink-0" />
+                                <h1 className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-indigo-400 truncate">
                                     My Vehicles
                                 </h1>
                             </div>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
                             <Link
                                 href="/dashboard/vehicles/search"
-                                className="text-sm text-sky-400 hover:text-sky-300 transition-colors flex items-center gap-1"
+                                className="text-xs sm:text-sm text-sky-400 hover:text-sky-300 transition-colors flex items-center gap-1.5 px-3 py-2 rounded-lg border border-sky-500/10 bg-sky-500/5 sm:border-0 sm:bg-transparent"
                             >
                                 <Search className="h-4 w-4" />
-                                Search Vehicle
+                                <span>Search</span>
                             </Link>
                             <Button
                                 onClick={() => setIsFormOpen(true)}
-                                className="bg-sky-500 hover:bg-sky-600 text-white"
+                                size="sm"
+                                className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-4 sm:py-2"
                             >
-                                <Plus className="h-4 w-4 mr-2" />
+                                <Plus className="h-4 w-4 mr-1.5" />
                                 Add Vehicle
                             </Button>
                         </div>

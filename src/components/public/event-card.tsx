@@ -108,7 +108,7 @@ export function EventCard({ event, status, onClick }: EventCardProps) {
                 </div>
 
                 <div className="pt-2 flex items-center justify-between">
-                    <Badge className={`${statusClass} text-xs`}>
+                    <Badge className={`${statusClass} text-xs py-1 px-2.5`}>
                         {statusLabels[status]}
                     </Badge>
 
@@ -119,12 +119,12 @@ export function EventCard({ event, status, onClick }: EventCardProps) {
                                 e.stopPropagation();
                                 router.push('/login');
                             }}
-                            className="bg-sky-500 hover:bg-sky-600 text-white text-xs"
+                            className="bg-sky-500 hover:bg-sky-600 text-white text-xs py-4 px-4 sm:py-2"
                         >
                             Login to Register
                         </Button>
                     ) : (
-                        <span className="text-sky-400 text-sm font-medium group-hover:underline">
+                        <span className="text-sky-400 text-sm font-medium group-hover:underline min-h-[36px] flex items-center">
                             View Details →
                         </span>
                     )}

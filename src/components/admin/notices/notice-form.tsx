@@ -96,34 +96,34 @@ export function NoticeForm({ initialData, isEditing = false }: NoticeFormProps) 
     return (
         <div className="space-y-6 max-w-4xl mx-auto">
             {/* Header Actions */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <Link
                     href="/admin/notices"
-                    className="flex items-center text-slate-400 hover:text-white transition-colors"
+                    className="flex items-center text-slate-400 hover:text-white transition-colors order-2 sm:order-1"
                 >
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     Back to Notices
                 </Link>
-                <div className="flex gap-3">
+                <div className="flex gap-2 sm:gap-3 order-1 sm:order-2">
                     <Button
                         variant="outline"
-                        className="border-white/10 hover:bg-white/5 text-slate-300"
+                        className="flex-1 sm:flex-none border-white/10 hover:bg-white/5 text-slate-300"
                         onClick={() => handleSubmit(false)}
                         disabled={loading}
                     >
                         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save Draft"}
                     </Button>
                     <Button
-                        className="bg-sky-500 hover:bg-sky-600 text-white"
+                        className="flex-1 sm:flex-none bg-sky-500 hover:bg-sky-600 text-white"
                         onClick={() => handleSubmit(true)}
                         disabled={loading}
                     >
-                        {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : (isEditing && initialData?.published ? "Update & Publish" : "Publish Notice")}
+                        {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : (isEditing && initialData?.published ? "Update & Publish" : "Publish")}
                     </Button>
                 </div>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-white/5 p-6 space-y-6">
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4 sm:p-6 space-y-6">
                 {/* Title */}
                 <div className="space-y-2">
                     <Label htmlFor="title" className="text-white">Title</Label>

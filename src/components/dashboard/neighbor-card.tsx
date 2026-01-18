@@ -60,51 +60,50 @@ export function NeighborCard({ neighbor, viewMode }: NeighborCardProps) {
 
     if (viewMode === "list") {
         return (
-            <div className="flex items-center gap-4 p-4 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition-all">
+            <div className="flex flex-col xs:flex-row items-center xs:items-start sm:items-center gap-4 p-4 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition-all">
                 {/* Avatar */}
                 <div className="shrink-0">
                     {neighbor.profileImageUrl ? (
                         <img
                             src={neighbor.profileImageUrl}
                             alt={neighbor.name}
-                            className="w-12 h-12 rounded-full object-cover"
+                            className="w-14 h-14 sm:w-12 sm:h-12 rounded-full object-cover"
                         />
                     ) : (
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-500 to-indigo-500 flex items-center justify-center">
-                            <User className="h-6 w-6 text-white" />
+                        <div className="w-14 h-14 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-sky-500 to-indigo-500 flex items-center justify-center">
+                            <User className="h-7 w-7 sm:h-6 sm:w-6 text-white" />
                         </div>
                     )}
                 </div>
 
                 {/* Info */}
-                <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-white truncate">{neighbor.name}</h3>
+                <div className="flex-1 min-w-0 text-center xs:text-left">
+                    <div className="flex flex-col xs:flex-row xs:items-center gap-2 mb-1.5 xs:mb-1">
+                        <h3 className="font-semibold text-white truncate text-base sm:text-sm">{neighbor.name}</h3>
                         <Badge
                             variant="outline"
-                            className={
-                                neighbor.userType === "OWNER"
+                            className={`w-fit mx-auto xs:mx-0 ${neighbor.userType === "OWNER"
                                     ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                                     : "bg-sky-500/10 text-sky-400 border-sky-500/20"
-                            }
+                                }`}
                         >
                             {neighbor.userType}
                         </Badge>
                     </div>
-                    <div className="flex flex-wrap gap-4 text-sm text-slate-400">
+                    <div className="flex flex-col xs:flex-row flex-wrap gap-2 xs:gap-4 text-xs sm:text-sm text-slate-400">
                         {neighbor.building && neighbor.flat && (
-                            <span className="flex items-center gap-1">
-                                <Home className="h-3.5 w-3.5" />
+                            <span className="flex items-center justify-center xs:justify-start gap-1.5">
+                                <Home className="h-3.5 w-3.5 text-purple-400" />
                                 {neighbor.building.name} - {neighbor.flat.flatNumber}
                             </span>
                         )}
-                        <span className="flex items-center gap-1">
-                            <Mail className="h-3.5 w-3.5" />
+                        <span className="flex items-center justify-center xs:justify-start gap-1.5 truncate">
+                            <Mail className="h-3.5 w-3.5 text-sky-400" />
                             {neighbor.email}
                         </span>
                         {neighbor.phoneNumber && (
-                            <span className="flex items-center gap-1">
-                                <Phone className="h-3.5 w-3.5" />
+                            <span className="flex items-center justify-center xs:justify-start gap-1.5">
+                                <Phone className="h-3.5 w-3.5 text-emerald-400" />
                                 {neighbor.phoneNumber}
                             </span>
                         )}
@@ -112,19 +111,19 @@ export function NeighborCard({ neighbor, viewMode }: NeighborCardProps) {
                 </div>
 
                 {/* Actions */}
-                <div className="shrink-0">
+                <div className="shrink-0 w-full xs:w-auto">
                     <Button
                         variant="ghost"
                         size="sm"
                         onClick={handleDownloadVCard}
                         disabled={downloading}
-                        className="text-sky-400 hover:text-sky-300 hover:bg-sky-500/10"
+                        className="w-full xs:w-auto text-sky-400 hover:text-sky-300 hover:bg-sky-500/10 h-10 xs:h-8"
                     >
                         {downloading ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
                         ) : (
                             <>
-                                <Download className="h-4 w-4 mr-1" />
+                                <Download className="h-4 w-4 mr-1.5" />
                                 vCard
                             </>
                         )}
@@ -199,9 +198,9 @@ export function NeighborCard({ neighbor, viewMode }: NeighborCardProps) {
                         <Button
                             variant="outline"
                             size="sm"
-                            className="w-full border-white/10 text-white hover:bg-white/10"
+                            className="w-full border-white/10 text-white hover:bg-white/10 py-5 sm:py-2"
                         >
-                            <Phone className="h-4 w-4 mr-1" />
+                            <Phone className="h-4 w-4 mr-1.5" />
                             Call
                         </Button>
                     </a>
@@ -211,13 +210,13 @@ export function NeighborCard({ neighbor, viewMode }: NeighborCardProps) {
                     size="sm"
                     onClick={handleDownloadVCard}
                     disabled={downloading}
-                    className="flex-1 border-sky-500/30 text-sky-400 hover:bg-sky-500/10"
+                    className="flex-1 border-sky-500/30 text-sky-400 hover:bg-sky-500/10 py-5 sm:py-2"
                 >
                     {downloading ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
                         <>
-                            <Download className="h-4 w-4 mr-1" />
+                            <Download className="h-4 w-4 mr-1.5" />
                             Save
                         </>
                     )}

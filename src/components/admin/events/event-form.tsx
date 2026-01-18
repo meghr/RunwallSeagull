@@ -152,18 +152,18 @@ export function EventForm({ initialData, isEditing = false }: EventFormProps) {
     return (
         <div className="space-y-6 max-w-4xl mx-auto">
             {/* Header Actions */}
-            <div className="flex items-center justify-between flex-wrap gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <Link
                     href="/admin/events"
-                    className="flex items-center text-slate-400 hover:text-white transition-colors"
+                    className="flex items-center text-slate-400 hover:text-white transition-colors order-2 sm:order-1"
                 >
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     Back to Events
                 </Link>
-                <div className="flex gap-3">
+                <div className="flex gap-2 sm:gap-3 order-1 sm:order-2">
                     <Button
                         variant="outline"
-                        className="border-white/10 hover:bg-white/5 text-slate-300"
+                        className="flex-1 sm:flex-none border-white/10 hover:bg-white/5 text-slate-300"
                         onClick={() => handleSubmit(false)}
                         disabled={loading}
                     >
@@ -174,23 +174,23 @@ export function EventForm({ initialData, isEditing = false }: EventFormProps) {
                         )}
                     </Button>
                     <Button
-                        className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white"
+                        className="flex-1 sm:flex-none bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white"
                         onClick={() => handleSubmit(true)}
                         disabled={loading}
                     >
                         {loading ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
                         ) : isEditing && initialData?.published ? (
-                            "Update & Publish"
+                            "Update"
                         ) : (
-                            "Publish Event"
+                            "Publish"
                         )}
                     </Button>
                 </div>
             </div>
 
             {/* Main Form */}
-            <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 space-y-8">
+            <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-4 sm:p-6 space-y-8">
                 {/* Event Basic Info Section */}
                 <div className="space-y-6">
                     <div className="flex items-center gap-2 text-lg font-semibold text-white">
