@@ -42,9 +42,9 @@ export function QuickActions() {
     ];
 
     return (
-        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 h-full">
-            <h3 className="text-lg font-semibold text-white mb-6">Quick Actions</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-4 md:p-5 lg:p-6 h-full">
+            <h3 className="text-base md:text-lg font-semibold text-white mb-4 md:mb-6">Quick Actions</h3>
+            <div className="grid grid-cols-2 gap-3 md:gap-4">
                 {actions.map((action) => (
                     <Link key={action.label} href={action.href}>
                         <div className="group p-4 rounded-lg border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer h-full">

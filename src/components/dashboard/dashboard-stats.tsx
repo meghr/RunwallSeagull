@@ -61,33 +61,37 @@ export function DashboardStats({
     ];
 
     return (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat, index) => (
                 <div
                     key={index}
-                    className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur transition-all hover:bg-white/10 hover:border-white/20"
+                    className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 p-4 md:p-6 backdrop-blur transition-all hover:bg-white/10 hover:border-white/20"
                 >
                     {/* Gradient overlay on hover */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
 
                     <div className="relative z-10">
-                        {/* Icon */}
-                        <div className={`inline-flex rounded-lg ${stat.bgColor} p-3 mb-4`}>
-                            <stat.icon className={`h-6 w-6 bg-gradient-to-br ${stat.color} bg-clip-text text-transparent`} style={{ WebkitTextFillColor: 'transparent' }} />
+                        <div className="flex items-center md:block gap-4 md:gap-0">
+                            {/* Icon */}
+                            <div className={`inline-flex rounded-lg ${stat.bgColor} p-2 md:p-3 mb-0 md:mb-4 shrink-0`}>
+                                <stat.icon className={`h-5 w-5 md:h-6 md:w-6 bg-gradient-to-br ${stat.color} bg-clip-text text-transparent`} style={{ WebkitTextFillColor: 'transparent' }} />
+                            </div>
+
+                            <div className="min-w-0">
+                                {/* Label */}
+                                <h3 className="text-xs md:text-sm font-medium text-slate-400 mb-0.5 md:mb-2">
+                                    {stat.label}
+                                </h3>
+
+                                {/* Value */}
+                                <div className="text-xl md:text-2xl font-bold text-white mb-0 md:mb-1 truncate">
+                                    {stat.value}
+                                </div>
+                            </div>
                         </div>
 
-                        {/* Label */}
-                        <h3 className="text-sm font-medium text-slate-400 mb-2">
-                            {stat.label}
-                        </h3>
-
-                        {/* Value */}
-                        <div className="text-2xl font-bold text-white mb-1">
-                            {stat.value}
-                        </div>
-
-                        {/* Sub value */}
-                        <p className="text-xs text-slate-500">
+                        {/* Sub value - hidden on small mobile to keep it super compact or moved below */}
+                        <p className="text-[10px] md:text-xs text-slate-500 mt-1">
                             {stat.subValue}
                         </p>
                     </div>

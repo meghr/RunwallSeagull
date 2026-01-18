@@ -26,10 +26,10 @@ export default async function AdminDashboard() {
     const activities = activityResult.success && activityResult.data ? activityResult.data : [];
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-4 md:space-y-6 lg:space-y-8">
             {/* Header */}
             <div>
-                <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+                <h2 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
                     Dashboard Overview
                 </h2>
                 <p className="text-slate-400 mt-1">
@@ -41,7 +41,7 @@ export default async function AdminDashboard() {
             <AdminStatsCards stats={stats} />
 
             {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
                 {/* Activity Feed - Takes up 2 columns */}
                 <div className="lg:col-span-2">
                     <RecentActivityFeed activities={activities} />

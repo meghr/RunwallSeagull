@@ -17,6 +17,7 @@ import { getPublicNotices } from "@/lib/actions/notice";
 import { getUpcomingEvents } from "@/lib/actions/event";
 import { NoticesSection } from "@/components/public/notices-section";
 import { EventsSection } from "@/components/public/events-section";
+import { MobileNav } from "@/components/public/mobile-nav";
 
 export const metadata: Metadata = {
   title: "Runwal Seagull Society | Smart Living for Modern Communities",
@@ -40,7 +41,9 @@ export default async function Home() {
           <Building2 className="h-6 w-6 text-sky-400" />
           <span className="font-bold text-xl text-white">Runwal Seagull</span>
         </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
+
+        {/* Desktop Navigation - Hidden on mobile, visible on md+ (UNCHANGED from original) */}
+        <nav className="ml-auto hidden md:flex gap-4 sm:gap-6">
           <Link className="text-sm font-medium hover:text-sky-400 transition-colors text-slate-300" href="#notices">
             Notices
           </Link>
@@ -67,6 +70,9 @@ export default async function Home() {
             </Button>
           </Link>
         </nav>
+
+        {/* Mobile Navigation - Visible on mobile, hidden on md+ */}
+        <MobileNav className="ml-auto md:hidden" />
       </header>
 
       <main className="flex-1 pt-16">

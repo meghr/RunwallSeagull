@@ -120,3 +120,44 @@ Before committing an E2E test, ensure:
 - [ ] Buildings have `isActiveForRegistration: true`
 - [ ] Building codes use the PREFIX to be unique
 - [ ] Cleanup order respects foreign key constraints
+
+---
+
+## 📱 Mobile Physical Device Testing
+
+When testing on a physical mobile device connected to the same WiFi network:
+
+### NEXTAUTH_URL Configuration
+
+The `NEXTAUTH_URL` environment variable controls where NextAuth redirects after login.
+
+| Testing Environment | NEXTAUTH_URL Value |
+|---------------------|-------------------|
+| Local Development (Desktop) | `http://localhost:3000` |
+| Mobile Device Testing | `http://YOUR_LOCAL_IP:3000` (e.g., `http://192.168.29.140:3000`) |
+| Production | `https://your-domain.vercel.app` |
+
+### Steps for Mobile Testing
+
+1. **Update `.env.local`**:
+   - Change `NEXTAUTH_URL` to your local IP address
+   - Example: `NEXTAUTH_URL="http://192.168.29.140:3000"`
+
+2. **Restart dev server**: `npm run dev`
+
+3. **On your phone**: Navigate to `http://YOUR_LOCAL_IP:3000`
+
+4. **Important**: Both devices must be on the same WiFi network
+
+### ⚠️ Before Pushing to Production
+
+**ALWAYS revert NEXTAUTH_URL before deploying**:
+
+- Change from: `http://192.168.29.140:3000` (local IP)
+- Change to: `https://your-domain.vercel.app` (production URL)
+
+### Pre-Production Checklist
+
+- [ ] Change NEXTAUTH_URL from local IP back to production URL
+- [ ] Verify `.env.local` changes are NOT committed to Git
+- [ ] Test login flow redirects correctly on production URL

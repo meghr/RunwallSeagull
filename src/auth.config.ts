@@ -33,6 +33,13 @@ export const authConfig = {
             }
             return token;
         },
+        // Role-based redirect after login
+        redirect({ url, baseUrl }) {
+            // If the URL is a relative URL or starts with the base URL
+            if (url.startsWith("/")) return `${baseUrl}${url}`;
+            if (url.startsWith(baseUrl)) return url;
+            return baseUrl;
+        },
         session({ session, token }) {
             if (token && session.user) {
                 session.user.role = token.role as string;

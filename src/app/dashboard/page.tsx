@@ -46,31 +46,34 @@ export default async function DashboardPage() {
             {/* Header */}
             <header className="border-b border-white/10 bg-slate-900/50 backdrop-blur-md sticky top-0 z-40">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
-                        <div>
-                            <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-indigo-400">
+                    <div className="flex items-center justify-between h-14 md:h-16">
+                        <div className="flex flex-col">
+                            <h1 className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-indigo-400">
                                 Dashboard
                             </h1>
-                            <p className="text-sm text-slate-400">
-                                Welcome back, {session.user.name}
+                            <p className="text-[10px] md:text-sm text-slate-400 -mt-0.5">
+                                Welcome, {session.user.name?.split(' ')[0]}
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 md:gap-4">
                             <Link
                                 href="/dashboard/profile"
-                                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-sm"
+                                className="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-xs md:text-sm"
+                                title="Profile"
                             >
                                 <User className="h-4 w-4" />
-                                Profile
+                                <span className="hidden sm:inline">Profile</span>
                             </Link>
                             <form action={logout}>
                                 <Button
                                     variant="outline"
-                                    className="border-white/10 text-white hover:bg-white/5 flex items-center gap-2"
+                                    size="sm"
+                                    className="border-white/10 text-white hover:bg-white/5 flex items-center gap-2 h-8 md:h-10 px-3 md:px-4"
+                                    title="Sign Out"
                                 >
                                     <LogOut className="h-4 w-4" />
-                                    Sign Out
+                                    <span className="hidden sm:inline">Sign Out</span>
                                 </Button>
                             </form>
                         </div>
@@ -79,7 +82,7 @@ export default async function DashboardPage() {
             </header>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
                 <div className="space-y-8">
                     {/* Statistics Cards */}
                     {stats && (

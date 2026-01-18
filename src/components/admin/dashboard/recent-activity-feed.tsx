@@ -55,24 +55,24 @@ export function RecentActivityFeed({ activities }: RecentActivityFeedProps) {
     };
 
     return (
-        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6">
-            <h3 className="text-lg font-semibold text-white mb-6">Recent Activity</h3>
+        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-4 md:p-5 lg:p-6">
+            <h3 className="text-base md:text-lg font-semibold text-white mb-4 md:mb-6">Recent Activity</h3>
 
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
                 {activities.map((activity, index) => (
-                    <div key={`${activity.id}-${index}`} className="flex gap-4">
+                    <div key={`${activity.id}-${index}`} className="flex gap-3 md:gap-4">
                         {/* Timeline Line */}
                         <div className="relative">
-                            <div className={`h-10 w-10 rounded-full flex items-center justify-center border border-white/5 ${getColor(activity.type)}`}>
+                            <div className={`h-8 w-8 md:h-10 md:w-10 rounded-full flex items-center justify-center border border-white/5 ${getColor(activity.type)}`}>
                                 {getIcon(activity.type)}
                             </div>
                             {index !== activities.length - 1 && (
-                                <div className="absolute top-10 left-1/2 -translate-x-1/2 w-px h-full bg-white/10 -mb-6" />
+                                <div className="absolute top-8 md:top-10 left-1/2 -translate-x-1/2 w-px h-full bg-white/10 -mb-6" />
                             )}
                         </div>
 
                         {/* Content */}
-                        <div className="flex-1 pt-1">
+                        <div className="flex-1 pt-0.5 md:pt-1">
                             <div className="flex items-center justify-between mb-1">
                                 <p className="text-sm font-medium text-white">{activity.action}</p>
                                 <span className="text-xs text-slate-500">

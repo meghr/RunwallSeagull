@@ -53,24 +53,24 @@ export function MyRegistrationsWidget({ registrations }: MyRegistrationsWidgetPr
     }
 
     return (
-        <div className="rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+        <div className="rounded-xl border border-white/10 bg-white/5 p-4 md:p-6 backdrop-blur">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-                    <Calendar className="h-5 w-5 text-emerald-400" />
-                    My Event Registrations
+            <div className="flex items-center justify-between mb-4 md:mb-6">
+                <h2 className="text-lg md:text-xl font-semibold text-white flex items-center gap-2">
+                    <Calendar className="h-4 w-4 md:h-5 md:w-5 text-emerald-400" />
+                    My Registrations
                 </h2>
                 <Link
                     href="/dashboard/events/my-registrations"
-                    className="text-sm text-sky-400 hover:text-sky-300 transition-colors flex items-center gap-1"
+                    className="text-xs md:text-sm text-sky-400 hover:text-sky-300 transition-colors flex items-center gap-1"
                 >
                     View All
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
                 </Link>
             </div>
 
             {/* Registrations List */}
-            <div className="space-y-3">
+            <div className="space-y-2 md:space-y-3">
                 {registrations.map((registration) => {
                     const daysUntil = formatDistanceToNow(new Date(registration.event.startDate), {
                         addSuffix: true
@@ -82,39 +82,39 @@ export function MyRegistrationsWidget({ registrations }: MyRegistrationsWidgetPr
                             href={`/dashboard/events/${registration.event.id}`}
                             className="block group"
                         >
-                            <div className="p-4 rounded-lg border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 transition-all">
-                                <div className="flex items-start justify-between gap-3 mb-3">
+                            <div className="p-3 md:p-4 rounded-lg border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 transition-all">
+                                <div className="flex items-start justify-between gap-2 mb-2 md:mb-3">
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="font-medium text-white group-hover:text-emerald-400 transition-colors mb-1">
+                                        <h3 className="text-sm md:text-base font-medium text-white group-hover:text-emerald-400 transition-colors mb-0.5 md:mb-1 truncate">
                                             {registration.event.title}
                                         </h3>
                                     </div>
                                     <Badge
                                         variant="outline"
-                                        className={`shrink-0 ${eventTypeColors[registration.event.eventType] || eventTypeColors.OTHER}`}
+                                        className={`shrink-0 text-[10px] md:text-xs py-0 h-5 md:h-6 ${eventTypeColors[registration.event.eventType] || eventTypeColors.OTHER}`}
                                     >
                                         {registration.event.eventType}
                                     </Badge>
                                 </div>
 
-                                <div className="space-y-2 text-sm text-slate-400">
-                                    <div className="flex items-center gap-2">
-                                        <Clock className="h-4 w-4 text-emerald-400" />
+                                <div className="space-y-1.5 md:space-y-2 text-[10px] md:text-sm text-slate-400">
+                                    <div className="flex items-center gap-1.5 md:gap-2">
+                                        <Clock className="h-3 w-3 md:h-4 md:w-4 text-emerald-400" />
                                         <span className="text-emerald-400 font-medium">
                                             {daysUntil}
                                         </span>
                                     </div>
 
-                                    <div className="flex items-center gap-2">
-                                        <Calendar className="h-4 w-4" />
+                                    <div className="flex items-center gap-1.5 md:gap-2">
+                                        <Calendar className="h-3 w-3 md:h-4 md:w-4" />
                                         <span>
-                                            {format(new Date(registration.event.startDate), "MMM d, yyyy 'at' h:mm a")}
+                                            {format(new Date(registration.event.startDate), "MMM d, h:mm a")}
                                         </span>
                                     </div>
 
                                     {registration.event.venue && (
-                                        <div className="flex items-center gap-2">
-                                            <MapPin className="h-4 w-4" />
+                                        <div className="flex items-center gap-1.5 md:gap-2">
+                                            <MapPin className="h-3 w-3 md:h-4 md:w-4" />
                                             <span className="truncate">{registration.event.venue}</span>
                                         </div>
                                     )}
